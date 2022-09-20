@@ -1,8 +1,9 @@
-export default {
-    server: {
-        host: "192.168.86.43"
-    },
-    build: {
-        chunkSizeWarningLimit: 600
-    }
-}
+import { defineConfig } from "vite"
+import Three from "three";
+import Tween from "@tweenjs/tween.js";
+import Stats from "stats.js"
+
+export default defineConfig({
+    base: "/portfolio",
+    plugins: [Three(), Tween(), Stats()]
+})
