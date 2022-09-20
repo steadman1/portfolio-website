@@ -9,6 +9,8 @@ import { FXAAEffect, EffectPass, RenderPass } from "postprocessing";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { MeshLine, MeshLineMaterial, MeshLineRaycast } from 'three.meshline';
 
+import ApartmentGLTF from "./assets/apartment.gltf";
+
 class ApartmentScene {
     scene: Three.Scene;
     cam: Three.Camera;
@@ -53,7 +55,7 @@ class ApartmentScene {
         const sceneToAdd = new Array();
         const sceneExtras = new Array();
 
-        gltfLoader.load("assets/apartment.gltf", (obj) => {
+        gltfLoader.load(ApartmentGLTF, (obj) => {
             obj.scene.traverse(function (object) {
                 // const objHelper = new Three.BoxHelper(object);
                 // scene.add(objHelper);
