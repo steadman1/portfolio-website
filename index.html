@@ -1,0 +1,583 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>website</title>
+</head>
+<body id="body" class="unselectable">
+
+    <div class="boot">
+        <div class="loadPercentContainer">
+            <h2 id="loadPercentText" class="loadPercentText">000</h2>
+            <div class="loadPercentBarContainer">
+                <div id="loadPercentBar" class="loadPercentBar"></div>
+            </div>
+        </div>
+
+        <div class="introCardStack">
+            <div name="introElement" class="introCardRow intro activeIntro">
+                <h1 class="introText introLineNumber introLineNumberFocused">0</h1>
+                <div class="profilePictureIntro"></div>
+                <h1 class="introText introLineText">hey, I'm spencer steadman. 👋</h1>
+                <div class="cursor"></div>
+            </div>
+            <div name="introElement" class="introCardRow intro inActiveIntro">
+                <h1 class="introText introLineNumber introLineNumberFocused">1</h1>
+                <h1 class="introText introLineText">welcome to my interactive portfolio! 🚀</h1>
+                <div class="cursor"></div>
+            </div>
+            <div name="introElement" class="cardStack intro inActiveIntro">
+                <div class="cardRow">
+                    <h1 class=" introText introLineNumber">2</h1>
+                    <h1 class="introText introLineText">I'm a self taught programmer and 3D</h1>
+                </div>
+                <div class="cardRow" style="margin-top: 12px;">
+                    <h1 class="introText introLineNumber introLineNumberFocused">3</h1>
+                    <h1 class="introText introLineText">artist currently in highschool. 🏫</h1>
+                    <div class="cursor"></div>
+                </div>
+            </div>
+            <div name="introElement" class="cardStack intro inActiveIntro">
+                <div class="cardRow">
+                    <h1 class="introText introLineNumber">4</h1>
+                    <h1 class="introText introLineText">since my introduction into coding,</h1>
+                </div>
+                <div class="cardRow" style="margin-top: 12px;">
+                    <h1 class="introText introLineNumber">5</h1>
+                    <h1 class="introText introLineText">I've, most notably, developed iOS apps to</h1>
+                </div>
+                <div class="cardRow" style="margin-top: 12px;">
+                    <h1 class="introText introLineNumber introLineNumberFocused">6</h1>
+                    <h1 class="introText introLineText">increase my (and others') productivity.</h1>
+                    <div class="cursor"></div>
+                </div>
+            </div>
+            <div name="introElement" class="cardStack intro inActiveIntro">
+                <div class="cardRow">
+                    <h1 class="introText introLineNumber">6</h1>
+                    <h1 class="introText introLineText">I've also been able to work on personal</h1>
+                </div>
+                <div class="cardRow" style="margin-top: 12px;">
+                    <h1 class="introText introLineNumber introLineNumberFocused">7</h1>
+                    <h1 class="introText introLineText">3D art projects like this website! 🧑🏼‍💻</h1>
+                    <div class="cursor"></div>
+                </div>
+            </div>
+            <div name="introElement" class="cardStack intro inActiveIntro">
+                <div class="cardRow">
+                    <h1 class="introText introLineNumber">8</h1>
+                    <h1 class="introText introLineText">now for the interactive part... enjoy! 🎉</h1>
+                </div>
+                <div class="cardRow" style="margin-top: 12px;">
+                    <h1 class="introText introLineNumber introLineNumberFocused">9</h1>
+                    <h1 class="introText introLineText">(for more info about me click "contact")</h1>
+                    <div class="cursor"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="nextIntroButton" tabIndex="0" role="button" class="nextIntroButton nextIntroButtonUnder" onclick="nextIntroElement()">
+            <div id="nextIntroButtonOver" class="nextIntroButton nextIntroButtonOver point">
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-down-short nextIntroIcon" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div id="enterInteractive" class="enterInteractive enterInteractiveUnder">
+            <div class="enterInteractive enterInteractiveOver point">
+                <h2 class="enterInteractiveText">enter</h2>
+            </div>
+        </div>
+    </div>
+
+    <div id="returnMainView" class="threeInFront returnMainView returnMainViewUnder" style="opacity: 0;">
+        <div class="returnMainView returnMainViewOver point">
+            <h2 class="returnMainViewText">return to main view</h2>
+        </div>
+    </div>
+    <div id="recordBoxCard" class="threeInFront infoCard">
+        <h2 class="infoCardTitle">Record Shop Boxes</h2>
+
+        <div class="closeIcon closeIconUnder">
+            <div class="closeIcon closeIconOver point">
+                <div class="cross crossClockWise"></div>
+                <div class="cross crossCounterClockWise"></div>
+            </div>
+        </div>
+
+        <div class="recordScroller">
+
+        </div>
+    </div>
+    
+    <div id="headerMain" class="threeBehind header">
+        <h1 name="header" class="headerTitle headerAnimate headerAnimateNoHover">&lt;/steadman&hairsp;&gt;</h1>
+
+        <div id="headerOptions" name="header" class="options headerAnimate headerAnimateNoHover">
+            <div class="optionsIcon headerAnimatePlaceHolder"></div>
+            <h1 class="optionsText headerAnimatePlaceHolder">options</h1>
+        </div>
+
+        <div id="headerContact" name="header" class="headerContact headerAnimate headerAnimateNoHover">
+            <div class="profilePictureSmall headerAnimatePlaceHolder"></div>
+            <h1 class="headerSubTitle headerAnimatePlaceHolder">contact</h1>
+        </div>
+
+        <div id="headerDropDownMenu" class="headerDropDownMenu headerDropDownMenuClosed headerAnimate headerAnimateNoHover">
+            <div id="headerDropDownOptionsIcon" class="headerDropDownIcon headerDropDownOptionsIcon"></div>
+            <div id="headerDropDownContactIcon" class="headerDropDownIcon headerDropDownContactIcon headerDropDownContactIconClosed"></div>
+            <div id="headerDropDown" name="header" class="headerDropDown headerAnimatePlaceHolder">
+                <div name="header" id="burgerClockTop" class="burger burgerTop burgerClockTop headerAnimatePlaceHolder"></div>
+                <div name="header" id="burgerClockMiddle" class="burger burgerMiddle burgerClockTop headerAnimatePlaceHolder"></div>
+                <div name="header" id="burgerClockWise" class="burger burgerBottom burgerClockTop headerAnimatePlaceHolder"></div>
+            </div>
+        </div>
+    </div>
+    <div id="popupOptions" class="threeInFront popup popupOptionsClosed">
+        <div class="cardRow" style="display:block; height: 90px;">
+            <h2 class="popupTitle">Options</h2>
+            <div id="popupOptionsClose" class="closeIcon closeIconUnder" onclick="popupOpenClose('popupOptions')">
+                <div class="closeIcon closeIconOver point">
+                    <div class="cross crossClockWise"></div>
+                    <div class="cross crossCounterClockWise"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scrollable">
+            <div class="cardRow">
+                <h2 class="optionText">Shadows</h2>
+                <div class="toggle toggleUnder">
+                    <h3 id="shadowToggleOn" class="toggleText">on</h3>
+                    <div id="shadowToggle" class="toggle toggleOver point"></div>
+                    <h3 id="shadowToggleOff" class="toggleText">off</h3>
+                </div>
+            </div>
+            <div class="cardRow optionRow">
+                <h2 class="optionText">Edge- Smoothing</h2>
+                <div class="toggle toggleUnder">
+                    <h3 id="antialiasToggleOn" class="toggleText">on</h3>
+                    <div id="antialiasToggle" class="toggle toggleOver point"></div>
+                    <h3 id="antialiasToggleOff" class="toggleText">off</h3>
+                </div>
+            </div>
+            <div class="cardRow optionRow">
+                <h2 class="optionText">Resolution</h2>
+                <div class="toggle toggleUnder">
+                    <h3 id="resolutionToggleOn" class="toggleText">high</h3>
+                    <div id="resolutionToggle" class="toggle toggleOver point toggleOver"></div>
+                    <h3 id="resolutionToggleOff" class="toggleText">low</h3>
+                </div>
+            </div>
+            <div class="cardRow optionRow">
+                <h2 class="optionText">Frame Rate Limit</h2>
+                <div class="toggle toggleUnder">
+                    <h3 id="frameCapToggleOn" class="toggleText">60fps</h3>
+                    <div id="frameCapToggle" class="toggle toggleOver point"></div>
+                    <h3 id="frameCapToggleOff" class="toggleText">30fps</h3>
+                </div>
+            </div>
+            <div class="cardRow optionRow">
+                <h2 class="optionText">Performance Monitor</h2>
+                <div class="toggle toggleUnder">
+                    <h3 id="statsToggleOn" class="toggleText">on</h3>
+                    <div id="statsToggle" class="toggle toggleOver point"></div>
+                    <h3 id="statsToggleOff" class="toggleText">off</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="popupContact" class="threeInFront popup popupContactClosed">
+        <div class="cardRow" style="display:block; height: 90px;">
+            <h2 class="popupTitle">Me&hairsp;.</h2>
+
+            <div id="popupContactClose" class="closeIcon closeIconUnder" onclick="popupOpenClose('popupContact')">    
+                <div class="closeIcon closeIconOver point">
+                    <div class="cross crossClockWise"></div>
+                    <div class="cross crossCounterClockWise"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scrollable">
+            <div class="cardRow">
+                <div style="width: 50%; height: 50%;">
+                    <div class="profilePictureContact"></div>
+                </div>
+    
+                <div class="contactBio">
+                    <h1 class="contactName">Spencer Steadman</h1>
+                    <h3 class="contactText">programmer, 3d artist, athlete</h3>
+                </div>
+            </div>
+            <h1 class="popupTitle popupSubTitle" style="margin: 30px 25px 0 20px; letter-spacing: 1px;">my highlight 3d works</h1>
+            <div class="cardRow">
+                <h1 class="workName" style="font-size: 9px; margin: 0 0 20px 20px">click to view on Instagram</h1>
+            </div>
+            <div class="cardRow">
+                <video height="250" class="videoBox" autoplay muted loop controls>
+                    <source src="./assets/katana.mp4" type="video/mp4">
+                </video>
+                <div class="workBio">
+                    <h1 class="workName">Katana & Medieval Helmet</h1>
+                    <h1 class="workText">This render was an interesting study into different textures; I loved working on each model because their respective individualities.</h1>
+                    <h1 class="workName">Software used</h1>
+                    <div class="cardRow">
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/blender_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/premiere_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/soundly_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="cardRow">
+                <video height="250" class="videoBox" autoplay muted loop controls>
+                    <source src="./assets/catapult.mp4" type="video/mp4">
+                </video>
+                <div class="workBio">
+                    <h1 class="workName">Catapult & Company</h1>
+                    <h1 class="workText">This project was a fascinating exploration into some basic physics and CGI realism.</h1>
+                    <h1 class="workName">Software used</h1>
+                    <div class="cardRow">
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/blender_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/premiere_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/soundly_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardRow">
+                <img height="250" class="videoBox" src="./assets/saturn.png">
+                <div class="workBio">
+                    <h1 class="workName">Saturn Highway</h1>
+                    <h1 class="workText">This render was inspired by Roger Mattos; I loved his original work, and I absolutely had to remake it with my favorite cars. An old Ford Bronco and VW Bus to name a few.</h1>
+                    <h1 class="workName">Software used</h1>
+                    <div class="cardRow">
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/blender_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logoIcon softwareIcon logoIconUnder">    
+                            <div class="logoIcon softwareIcon logoIconOver point">
+                                <div class="logoWrapper">
+                                    <img class="logo softwareUsedLogo" src="./assets/photoshop_logo.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="popupTitle popupSubTitle" style="margin: 30px 20px 15px 20px;">programming</h1>
+            <div class="cardRow">
+                <h1 class="workText" style="margin: 0 20px;">I started programming in early 2020 for my International Baccalaureate personal project.
+                    I was inspired by my brother's love for the hobby, and I quickly fell in love with it as well.
+                    My first language was Python, but I didnt stop there. 
+                    Since then, I've been developing my skills in computer science and programming every single day.</h1>
+            </div>
+            <h1 class="workName" style="margin: 15px 20px; font-size: 17px;">My Experience (as of Sep. 2022)</h1>
+            <div class="cardRow"  style="margin: 5px 10px;">
+                <h1 class="workText" style="margin: auto;">Python 🐍 — 2 & 1/2 years</h1>
+                <h1 class="workText" style="margin: auto;">Javascript — 2 years</h1>
+            </div>
+            <div class="cardRow" style="margin: 5px 10px;">
+                <h1 class="workText" style="margin: auto;">SwiftUI — 1 & 1/2 years</h1>
+                <h1 class="workText" style="margin: auto;">Dart 🎯 — 1 & 1/2 years</h1>
+            </div>
+            <div class="cardRow" style="margin: 5px 10px;">
+                <h1 class="workText" style="margin: auto;">Java ☕ — 1 year</h1>
+            </div>
+            <div class="sideScrollable">
+                
+            </div>
+            <div class="cardRow" style="margin-top: 20px;">
+                <div class="logoIcon logoIconUnder">    
+                    <div class="logoIcon logoIconOver point">
+                        <div class="logoWrapper">
+                            <img class="logo" src="./assets/instagram_logo.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="logoIcon logoIconUnder">    
+                    <div class="logoIcon logoIconOver point">
+                        <div class="logoWrapper">
+                            <img class="logo" src="./assets/github_logo.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="logoIcon logoIconUnder">    
+                    <div class="logoIcon logoIconOver point">
+                        <div class="logoWrapper">
+                            <img class="logo" src="./assets/email_logo.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100%; height: 40px;"></div>
+        </div>
+    </div>
+    <canvas id="threeCanvas"></canvas>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let introIndex = 0;
+
+        window.isMobile = function() {
+            let check = false;
+            (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+            return check;
+        };
+
+        function toggle(id, init = false) {
+            const options = {
+                "shadowToggle": (bool) => window.shadows = bool,
+                "shadowToggleInit": window.shadows,
+
+                "antialiasToggle": (bool) => window.edgeSmooth = bool,
+                "antialiasToggleInit": window.edgeSmooth,
+
+                "resolutionToggle": (bool) => window.resolution = bool,
+                "resolutionToggleInit": window.resolution,
+
+                "statsToggle": (bool) => window.stats = bool,
+                "statsToggleInit": window.stats,
+
+                "frameCapToggle": (bool) => window.frameCap = bool,
+                "frameCapToggleInit": window.frameCap,
+            }
+
+            const toggle = document.getElementById(id);
+
+            const onText = document.getElementById(id + "On");
+            const offText = document.getElementById(id + "Off");
+
+            let isToggleOpen = init ? !options[id + "Init"] : toggle.classList.contains("toggleOverOpen");
+
+            if (!init) {
+                const optionWindowValue = options[id].call(this, !isToggleOpen);
+            }
+            
+            if (isToggleOpen) {
+
+                toggle.classList.remove("toggleOverOpen");
+                toggle.classList.add("toggleOverClosed");
+
+                offText.style.display = "block";
+                onText.style.display = "none";
+
+            } else {
+                toggle.classList.remove("toggleOverClosed");
+                toggle.classList.add("toggleOverOpen");
+
+                onText.style.display = "block";
+                offText.style.display = "none";
+            }
+        }
+
+        function popupOpenClose(id, forceClose = undefined, threeCanvasFog = true) {
+
+            const el = document.getElementById(id);
+            const forceCloseEl = document.getElementById(forceClose);
+
+            const threeCanvas = document.getElementById("threeCanvas");
+            
+            const closing = forceClose !== undefined && forceCloseEl.classList.contains(forceClose + "Open");
+
+            if (closing) {
+                
+                forceCloseEl.classList.remove(forceClose + "Open");
+                forceCloseEl.classList.add(forceClose + "Closed");
+
+                if (threeCanvasFog) {
+                    threeCanvas.classList.remove("threePopup");
+                }
+            }
+
+            setTimeout(() => {
+                if (el.classList.contains(id + "Open")) {
+
+                    el.classList.remove(id + "Open");
+                    el.classList.add(id + "Closed");
+
+                    if (threeCanvasFog) {
+                        threeCanvas.classList.remove("threePopup");
+                    }
+                } else {
+                    el.classList.remove(id + "Closed");
+                    el.classList.add(id + "Open");
+
+                    if (threeCanvasFog) {
+                        threeCanvas.classList.add("threePopup");
+                    }
+                }
+            }, closing ? 300 : 0)
+        }
+
+        function burgerIcon() {
+            const burgerClockTop = document.getElementById("burgerClockTop");
+            const burgerClockMiddle = document.getElementById("burgerClockMiddle");
+            const burgerClockWise = document.getElementById("burgerClockWise");
+
+            const burgers = [burgerClockTop, burgerClockMiddle, burgerClockWise];
+
+            const exit = burgerClockTop.classList.contains("burgerClockTop");
+
+            for (let i = 0; i < burgers.length; i++) {
+                if (exit) {
+                    burgers[i].classList.remove(burgers[i].id);
+                    burgers[i].classList.add(burgers[i].id + "Cross");
+                } else {
+                    burgers[i].classList.remove(burgers[i].id + "Cross");
+                    burgers[i].classList.add(burgers[i].id);
+                }
+            }
+        }
+
+        $("#threeCanvas").on(window.isMobile() ? "mousemove" : "click", function (event) {
+            if (document.elementFromPoint) {
+
+                const $canvas = $(this);
+
+                $canvas.css('visibility', 'hidden');
+
+                const $under = $(document.elementFromPoint(event.clientX, event.clientY));
+
+                $canvas.css('visibility', 'visible');
+
+                if ($under.attr("id") === "headerDropDown" || $under.hasClass("burger")) {
+                    burgerIcon();
+
+                    popupOpenClose("headerDropDownMenu", undefined, false);
+                    popupOpenClose("headerDropDownContactIcon", undefined, false);
+
+                } else if ($under.attr("id") === "headerDropDownOptionsIcon") {
+                    popupOpenClose("popupOptions", "popupContact");
+                } else if ($under.attr("id") === "headerDropDownContactIcon") {
+                    popupOpenClose("popupContact", "popupOptions");
+
+                } else if ($under.attr("id") === "headerOptions" || $under.parent().attr("id") === "headerOptions") {
+                    popupOpenClose("popupOptions", "popupContact");
+                } else if ($under.attr("id") === "headerContact" || $under.parent().attr("id") === "headerContact") {
+                    popupOpenClose("popupContact", "popupOptions");
+                }
+            }
+        })
+
+        $("canvas").mousemove(function (event) {
+            if (document.elementFromPoint) {
+                const $canvas = $(this);
+
+                $canvas.css('visibility', 'hidden');
+
+                const $under = $(document.elementFromPoint(event.clientX, event.clientY));
+
+                $canvas.css('visibility', 'visible');
+
+                const animateClass = "headerAnimate";
+                const animatePlaceHolder = "headerAnimatePlaceHolder";
+
+                if ($under.hasClass(animateClass)) {
+                    $under.removeClass("headerAnimateNoHover");
+                    $under.addClass("headerAnimateHover");
+                } else if ($under.hasClass(animatePlaceHolder)) {
+                    const parents = $under.parents()
+
+                    for (let i = 0; i < parents.length; i++) {
+                        if (parents[i].classList.contains(animateClass)) {
+                            
+                            parents[i].classList.remove("headerAnimateNoHover");
+                            parents[i].classList.add("headerAnimateHover");
+                        } 
+                    }
+                } else {
+                    const headerElements = document.getElementsByClassName(animateClass);
+                    for (let i = 0; i < headerElements.length; i++) {
+                        headerElements[i].classList.remove("headerAnimateHover");
+                        headerElements[i].classList.add("headerAnimateNoHover");
+                    }
+                }
+            }
+        })
+
+        addEventListener("gltfLoad", () => {
+            const toggles = document.getElementsByClassName("toggleOver");
+            for (let i = 0; i < toggles.length; i++) {
+                toggle(toggles[i].getAttribute("id"), true)
+
+                toggles[i].addEventListener("click", () => toggle(toggles[i].getAttribute("id")))
+            }
+        })
+
+        function nextIntroElement() {
+            if (introIndex <= 4) {
+                const introElements = document.getElementsByName("introElement");
+
+                introElements[introIndex].classList.remove("activeIntro");
+                introElements[introIndex].classList.add("deadIntro");
+
+                try {
+                    introElements[introIndex + 1].classList.remove("inActiveIntro");
+                    introElements[introIndex + 1].classList.add("activeIntro");
+                } catch (error) {
+                    console.log("last element")
+                }
+            }
+
+            if (introIndex >= 4) {
+                const nextIntroButton = document.getElementById("nextIntroButton");
+                const nextIntroButtonOver = document.getElementById("nextIntroButtonOver");
+                const enterInteractive = document.getElementById("enterInteractive");
+
+                nextIntroButton.style.opacity = "0";
+                nextIntroButtonOver.classList.remove("point");
+
+                enterInteractive.style.animation = "floatUpHigh 0.3s ease-out 1";
+                enterInteractive.style.transform = "translate(-50%, -100%)";
+            }
+
+            introIndex++;
+        }
+
+    </script>
+    <script type="module" src="/main.js"></script>
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+</body>
+</html>
+

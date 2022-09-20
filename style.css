@@ -1,0 +1,1143 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@350&display=swap&family=Roboto+Mono&display=swap');
+
+@font-face {
+  font-family: "akira";
+  src: url("assets/Akira\ Expanded.otf");
+}
+
+@font-face {
+  font-family: "monument";
+  src: url("assets/MonumentExtended-Regular.otf");
+}
+
+@font-face {
+  font-family: "menlo";
+  src: url("assets/Menlo-Regular.ttf");
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-color: rgb(194, 194, 194);
+  transition: background-color 1s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(173, 173, 173);
+}
+
+::-webkit-scrollbar-track {
+  background: whitesmoke;
+}
+
+:root {
+  --color-blue: #27476E;
+  --color-orange: #FE5F55;
+  --color-code: rgb(197, 197, 197);
+  --color-highlight-code: rgb(150, 150, 150);
+  --border-grey: rgb(214, 214, 214);
+  --hover-seconds: 0.1s;
+  --card-float: -410px;
+  --burger-seconds: 0.5s;
+  --buger-menu-seconds: 0.35s;
+  --burger-menu-height: 200px;
+  --toggle-seconds: 1s;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  transition: 0.5s filter ease-in-out;
+  filter: blur(0px) brightness(1);
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: rgb(233, 229, 237);
+}
+
+.boot {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.point {
+  user-select: none;
+  cursor: pointer;
+}
+
+.threeInFront {
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.threeBehind {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.loadPercentText {
+  width: fit-content;
+  margin: 15px auto 10px auto;
+  font-family: monument;
+}
+
+.loadPercentBar {
+  height: 100%;
+  width: 0%;
+  border-radius: 100px;
+  background-color: black;
+}
+
+.loadPercentBarContainer {
+  height: 5px;
+  width: 100%;
+  border-radius: 100px;
+  background-color: rgb(196, 196, 196);
+}
+
+.loadPercentContainer {
+  position: fixed;
+  width: 65px;
+  z-index: 0;
+  top: 20px;
+  left: 40px;
+  user-select: none;
+}
+
+.introCardStack {
+  height: 100%;
+  width: 500px;
+  margin: auto;
+  height: fit-content;
+}
+
+.introText {
+  height: fit-content;
+  font-family: menlo;
+  font-size: 18px;
+}
+
+.introLineNumber {
+  margin: auto 50px auto 0;
+  color: var(--color-code);
+}
+
+.introLineNumberFocused {
+  color: var(--color-highlight-code);
+}
+
+.introLineText {
+  margin: auto 0 auto 20px;
+}
+
+.intro {
+  position: absolute; 
+  top: calc(50%);
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.deadIntro {
+  transform: translateY(calc(-50% - 100px));
+  opacity: 0;
+}
+
+.activeIntro {
+  transform: translateY(-50%);
+  opacity: 1;
+}
+
+.inActiveIntro {
+  transform: translateY(calc(-50% + 100px));
+  opacity: 0;
+}
+
+.profilePictureIntro {
+  margin: auto 0;
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+  background: whitesmoke url(./assets/profile_picture_900x900.JPG) center no-repeat;
+  background-size: contain;
+  border: 4px solid white;
+  box-shadow: 4px 4px 15px rgba(29, 29, 29, 0.326);
+}
+
+.nextIntroButton {
+  height: 40px;
+  width: 40px;
+  user-select: none;
+  border-radius: 100px;
+  border: 4px solid var(--border-grey);
+  z-index: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+.nextIntroButtonUnder {
+  position: absolute;
+  top: calc(50% + 80px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--border-grey);
+}
+
+.nextIntroButtonOver {
+  transform: translate(1px, -8px);
+  background: whitesmoke;
+  transition: transform var(--hover-seconds) ease-in-out;
+}
+
+.nextIntroButtonOver:hover, .nextIntroButtonOver:active {
+  transform: translate(-1px, -6px);
+}
+
+.nextIntroIcon {
+  fill: var(--color-orange);
+}
+
+.cursor {
+  margin: auto 0 auto 7px;
+  height: 25px;
+  width: 3px;
+  background-color: var(--color-highlight-code);
+  border-radius: 100px;
+  animation: cursorBlink 1.8s ease-in-out infinite;
+}
+
+@keyframes cursorBlink {
+  40% {opacity: 1;}
+  70% {opacity: 0;}
+}
+
+.enterInteractive {
+  width: 180px;
+  height: 60px;
+  
+  user-select: none;
+  border-radius: 15px;
+  border: 4px solid var(--border-grey);
+  z-index: 1;
+}
+
+.enterInteractiveUnder {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  background: var(--border-grey);
+  transform: translate(-50%, 160px);
+  box-shadow: 4px 6px 25px rgba(29, 29, 29, 0.25);
+
+}
+
+.enterInteractiveOver {
+  transform: translate(5px, -12px);
+  text-align: center;
+  background: whitesmoke;
+  transition: transform var(--hover-seconds) ease-in-out;
+}
+
+.enterInteractiveOver:hover, .enterInteractiveOver:active {
+  transform: translate(1px, -8px);
+}
+
+.enterInteractiveText {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: akira;
+  color: var(--color-orange);
+  margin: auto;
+}
+
+.profilePictureSmall {
+  margin: auto;
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  background: whitesmoke url(./assets/profile_picture_32x32.jpeg) center no-repeat;
+  border: 3px solid white;
+  box-shadow: 1px 1px 15px rgba(29, 29, 29, 0.326);
+}
+
+.profilePictureContact {
+  margin: auto;
+  height: 130px;
+  width: 130px;
+  border-radius: 100px;
+  background: whitesmoke url(./assets/profile_picture_900x900.JPG) center no-repeat;
+  background-size: contain;
+  border: 5px solid white;
+  box-shadow: 4px 4px 15px rgba(29, 29, 29, 0.326);
+}
+
+.contactBio {
+  width: 50%;
+  height: 50%;
+}
+
+.contactName {
+  font-family: monument;
+  font-size: 24px;
+  color: black;
+}
+
+.contactText {
+  font-family: monument;
+  font-size: 12px;
+  color: black;
+}
+
+.workBio {
+  margin-right: 20px;
+  width: max-content;
+  height: 100%;
+}
+
+.workName {
+  font-family: monument;
+  font-size: 20px;
+  color: black;
+}
+
+.workText {
+  font-family: monument;
+  font-size: 12px;
+  color: rgb(51, 51, 51);
+}
+
+.introCardRow {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  height: fit-content;
+}
+
+.cardRow {
+  display: flex;
+  margin: auto;
+  position: static;
+  width: 100%;
+  height: fit-content;
+}
+
+.cardUndecidedRow {
+  display: flex;
+  margin: auto;
+  position: static;
+  width: 100%;
+  height: fit-content;
+}
+
+.cardStack {
+  width: 100%;
+  margin: auto;
+  height: fit-content;
+}
+
+.videoBox {
+  margin: 10px 20px 10px;
+  border-radius: 10px;
+  box-shadow: 3px 4px 12px rgba(29, 29, 29, 0.326);
+}
+
+.scrollable {
+  width: calc(100% - 5px);
+  height: calc(100% - 100px);
+  padding-top: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.sideScrollable {
+  margin: 0 20px;
+  padding-top: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.sideScrollBox {
+  display: inline-block;
+}
+
+.optionRow {
+  margin-top: 0px;
+}
+
+.logoWrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  border-radius: 100px;
+}
+
+.logoIcon {
+  width: 65px;
+  height: 65px;
+  margin: auto;
+  user-select: none;
+  border-radius: 100px;
+  border: 4px solid var(--border-grey);
+}
+
+.softwareIcon {
+  width: 52px; 
+  height: 52px;
+}
+
+.logoIconUnder {
+  background: var(--border-grey);
+}
+
+.logoIconOver {
+  transform: translate(2px, -9px);
+  background: whitesmoke;
+  transition: transform var(--hover-seconds) ease-in-out;
+}
+
+.logoIconOver:hover, .logoIconOver:active {
+  transform: translate(-1.5px, -6px);
+}
+
+.logo {
+  margin: auto;
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(2px 3px 2.5px rgba(29, 29, 29, 0.2));
+}
+
+.popup {
+  position: absolute;
+  width: 400px;
+  height: calc(85% - 50px);
+  background: whitesmoke;
+  border-radius: 25px 25px 0 0;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%, 0%);
+  box-shadow: 0px -8px 30px rgba(29, 29, 29, 0.196);
+}
+
+.popupTitle {
+  font-family: akira;
+  font-size: 35px;
+  max-width: 280px;
+  margin: 15px 0 0 22px;
+  float: left;
+  color: black;
+  text-shadow: 4px 4px 15px rgba(29, 29, 29, 0.144);
+}
+
+.popupSubTitle {
+  font-size: 22px;
+}
+
+.popupOptionsOpen {
+  animation: popupOptionsOpen 0.3s ease-out 1;
+  transform: translate(-50%, 0%)
+}
+
+.popupOptionsClosed {
+  animation: popupOptionsClosed 0.45s ease-in-out 1;
+  transform: translate(-50%, 100%)
+}
+
+.popupContactOpen {
+  animation: popupContactOpen 0.3s ease-out 1;
+  transform: translate(-50%, 0%)
+}
+
+.popupContactClosed {
+  animation: popupContactClosed 0.45s ease-in-out 1;
+  transform: translate(-50%, 100%)
+}
+
+.threePopup {
+  pointer-events: none;
+  filter: blur(3px) brightness(0.8);
+}
+
+.header {
+  height: 120px;
+  padding: 0 80px;
+  position: relative;
+  display: flex;
+}
+
+.headerContact {
+  width: 235px;
+  height: 65px;
+  margin: auto 0 auto 0;
+  border-radius: 20px;
+  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
+  display: flex;
+  vertical-align: middle;
+  backdrop-filter: blur(5px);
+  background: whitesmoke;
+}
+
+.headerSubTitle {
+  margin: auto auto auto 0;
+  font-family: akira;
+  font-size: 20px;
+  color: var(--color-orange);
+  user-select: none;
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  font-family: akira;
+  color: whitesmoke;
+  text-shadow: 4px 8px 15px rgba(29, 29, 29, 0.235);
+  user-select: none;
+}
+
+.headerDropDownIcon {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.headerDropDownOptionsIcon {
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 100px;
+  background: whitesmoke url(./assets/settings_icon.png) center no-repeat;
+  background-size: 30px 30px;
+}
+
+.headerDropDownContactIcon {
+  -webkit-transform: translate(-50%, 150%);
+  transform: translate(-50%, 150%);
+  border-radius: 100px;
+  background: whitesmoke url(./assets/profile_picture_32x32.jpeg) center no-repeat;
+  background-size: 30px 30px;
+  border: 3px solid white;
+  box-shadow: 1px 1px 15px rgba(29, 29, 29, 0.326);
+}
+
+.headerDropDownContactIconOpen {
+  -webkit-animation: headerDropDownContactIconOpen var(--buger-menu-seconds) ease-out 1;
+  animation: headerDropDownContactIconOpen var(--buger-menu-seconds) ease-out 1;
+  -webkit-transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%);
+}
+
+.headerDropDownContactIconClosed {
+  -webkit-animation: headerDropDownContactIconClosed var(--buger-menu-seconds) ease-out 1;
+  animation: headerDropDownContactIconClosed var(--buger-menu-seconds) ease-out 1;
+  -webkit-transform: translate(-50%, -125%);
+  transform: translate(-50%, -125%);
+}
+
+.headerDropDown {
+  position: absolute;
+  transform: translateY(-100%);
+  height: 65px;
+  width: 65px;
+  border-radius: 100px;
+  background: whitesmoke;
+  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.122);
+} 
+
+.headerDropDownMenu {
+  height: 65px;
+  width: 65px;
+  margin: 15px 0 auto auto;
+  border-radius: 100px;
+  display: none;
+  background-color: rgb(240, 240, 240);
+  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
+}
+
+.headerDropDownMenuOpen {
+  animation: headerDropDownMenuOpen var(--buger-menu-seconds) ease-out 1;
+  height: var(--burger-menu-height);
+}
+
+.headerDropDownMenuClosed {
+  animation: headerDropDownMenuClosed var(--buger-menu-seconds) ease-out 1;
+  height: 65px;
+}
+
+.headerAnimate {
+  transition: transform .4s ease;
+}
+
+.headerAnimateNoHover {
+  transform: rotate3d(0.5, -0.9, 0, 19deg) rotate(1deg);
+}
+
+.headerAnimateHover {
+  transform: rotate3d(0,0,0,0deg) rotate(-0.2deg);
+}
+
+.options {
+  margin: auto 35px auto auto;
+  display: flex;
+  vertical-align: middle;
+}
+
+.optionsText {
+  margin: auto 0 auto 0;
+  font-family: akira;
+  user-select: none;
+  font-size: 22px;
+  color: whitesmoke;
+  text-shadow: 4px 8px 15px rgba(29, 29, 29, 0.235);
+}
+
+.optionsIcon {
+  height: 60px;
+  width: 60px;
+  border-radius: 100px;
+  margin: 10px;
+  background: whitesmoke url(./assets/settings_icon.png) center no-repeat;
+  background-size: 30px 30px;
+  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
+}
+
+.selector {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 100px;
+  background: whitesmoke;
+  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.2);
+  z-index: 2;
+}
+
+.returnMainView {
+  width: 280px;
+  height: 90px;
+  
+  user-select: none;
+  border-radius: 15px;
+  border: 4px solid var(--border-grey);
+}
+
+.returnMainViewUnder {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  background: var(--border-grey);
+  transform: translate(-50%, 160px);
+  box-shadow: 4px 6px 25px rgba(29, 29, 29, 0.341);
+}
+
+.returnMainViewOver {
+  transform: translate(5px, -12px);
+  text-align: center;
+  background: whitesmoke;
+  transition: transform var(--hover-seconds) ease-in-out;
+}
+
+.returnMainViewOver:hover, .returnMainViewOver:active {
+  transform: translate(1px, -8px);
+}
+
+.returnMainViewText {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: akira;
+  color: var(--color-orange);
+  margin: auto;
+}
+
+.infoCard {
+  position: absolute;
+  height: 500px;
+  width: 400px;
+  background-color: whitesmoke;
+  border-radius: 25px;
+  transform: translate(var(--card-float));
+  box-shadow: 6px 10px 35px rgba(29, 29, 29, 0.204);
+}
+
+.infoCardTitle {
+  font-family: akira;
+  font-size: 28px;
+  width: 250px;
+  margin: 15px 0 0 22px;
+  float: left;
+}
+
+.burger {
+  position: absolute;
+  top: 33px;
+  left: 50%;
+  height: 6px;
+  width: 30px;
+  border-radius: 100px;
+  background-color: var(--color-orange);
+}
+
+.burgerTop {
+  transform: translate(-50%, -240%);
+}
+
+.burgerMiddle {
+  transform: translate(-50%, -50%);
+}
+
+.burgerBottom {
+  transform: translate(-50%, 140%);
+}
+
+.burgerClockTop {
+  animation: burgerClockTop var(--burger-seconds) ease-out 1;
+}
+
+.burgerClockMiddle {
+  animation: burgerClockMiddle var(--burger-seconds) ease-out 1;
+}
+
+.burgerClockWise {
+  animation: burgerClockWise var(--burger-seconds) ease-out 1;
+}
+
+.burgerClockTopCross {
+  animation: burgerClockTopCross var(--burger-seconds) ease-out 1;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.burgerClockMiddleCross {
+  animation: burgerClockMiddleCross var(--burger-seconds) ease-out 1;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.burgerClockWiseCross {
+  animation: burgerClockWiseCross var(--burger-seconds) ease-out 1;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@media only screen and (max-width: 1000px) {
+  .headerTitle {
+    vertical-align: middle;
+    margin: 0;
+    margin-top: 0;
+    font-size: 32px;
+  }
+  .header {
+    height: 90px;
+    padding: 0 10px;
+  }
+  .headerDropDownMenu {
+    display: block;
+  } 
+  .headerContact {
+    display: none;
+  }
+  .options {
+    display: none;
+  }
+} 
+
+@media only screen and (max-width: 700px) {
+  
+  .profilePictureIntro{
+    height: 40px;
+    width: 40px;
+  }
+  .introText {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .popup {
+    width: 550px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .cardUndecidedRow {
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: fit-content;
+  }
+  .workName {
+    font-size: 15px;
+  }
+  .workText {
+    font-size: 11px;
+  }
+
+  .infoCard {
+    height: 400px;
+    width: 300px;
+  }
+  .infoCardTitle {
+    width: 200px;
+    font-size: 22px;
+  }
+  .closeIcon {
+    height: 35px;
+    width: 35px;
+  }
+  .cross {
+    height: 22px;
+    width: 5px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .cursor {
+    margin: auto 0 auto 4px;
+    height: 16px;
+    width: 2px;
+  }
+
+  .introText {
+    font-size: 12px;
+  }
+  .introLineNumber {
+    margin: auto 20px auto 0;
+  }
+  .introLineText {
+    margin: auto 0 auto 10px;
+  }
+  .introCardStack{
+    width: 340px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .header {
+    height: 70px;
+    padding: 0 10px;
+  }
+  .headerTitle {
+    vertical-align: middle;
+    margin: 0;
+    margin-top: 0;
+    font-size: 24px;
+  }
+  .headerDropDownMenuOpen {
+    animation: headerDropDownMenuOpenSmall var(--buger-menu-seconds) ease-out 1;
+    height: var(--burger-menu-height);
+  }
+  .headerDropDownMenuClosed {
+    animation: headerDropDownMenuClosedSmall var(--buger-menu-seconds) ease-out 1;
+    height: 55px;
+  }
+  .headerDropDownMenu {
+    width: 55px;
+    margin-top: 8px;
+  }
+  .headerDropDown {
+    transform: translateY(calc(-100% - 10px));
+    width: 55px;
+    height: 55px;
+  }
+  .burger {
+    top: 28px;
+    height: 5px;
+    width: 25px;
+  }
+  .popup {
+    width: 100%;
+  }
+  .softwareIcon {
+    width: 42px;
+    height: 42px;
+  }
+  .softwareUsedLogo {
+    width: 34px;
+    height: 34px;
+  }
+} 
+
+@media only screen and (max-width: 370px) {
+  .contactName {
+    font-size: 18px;
+  }
+
+  .contactBio {
+    font-size: 10px;
+  }
+
+  .introText {
+    font-size: 10px;
+  }
+  .introLineNumber {
+    margin: auto 20px auto 0;
+  }
+  .introLineText {
+    margin: auto 0 auto 10px;
+  }
+  .introCardStack{
+    width: 280px;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .headerTitle {
+    font-size: 18;
+  }
+  .returnMainView {
+    height: 80px;
+    width: 230px;
+  }
+}
+
+
+.closeIcon {
+  height: 40px;
+  width: 40px;
+  user-select: none;
+  border-radius: 100px;
+  border: 4px solid var(--border-grey);
+}
+
+.closeIconUnder {
+  margin: 20px 20px 20px 0;
+  float: right;
+  background: var(--border-grey);
+}
+
+.closeIconOver {
+  transform: translate(1px, -8px);
+  background: whitesmoke;
+  transition: transform var(--hover-seconds) ease-in-out;
+}
+
+.closeIconOver:hover, .closeIconOver:active {
+  transform: translate(-1px, -6px);
+}
+
+.cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 25px;
+  width: 6px;
+  border-radius: 100px;
+  background: var(--color-orange);
+}
+
+.crossClockWise {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.crossCounterClockWise {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.optionText {
+  width: 30%;
+  margin: auto auto auto 30px;
+  font-family: monument;
+  font-size: 20px;
+  color: black;
+}
+
+.toggle {
+  height: 40px;
+  width: 40px;
+  user-select: none;
+  border-radius: 100px;
+  border: 4px solid var(--border-grey);
+}
+
+.toggleUnder {
+  display: inline;
+  width: fit-content;
+  margin: 20px 20px 20px 0;
+  float: right;
+  background: var(--border-grey);
+}
+
+.toggleText {
+  position: relative;
+  float: left;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: auto 12px;
+  font-family: monument;
+  font-size: 14px;
+  color: white;
+  text-shadow: 3px 4px 12px rgba(29, 29, 29, 0.296);
+}
+
+.toggleOver {
+  margin: auto 0 auto auto;
+  background-color: whitesmoke;
+  transition: var(--hover-seconds) ease-in-out;
+}
+
+.toggleOverOpen:hover, .toggleOverOpen:active {
+  transform: translate(4px, -4px);
+}
+
+.toggleOverClosed:hover, .toggleOverClosed:active {
+  transform: translate(-3px, -4px);
+}
+
+.toggleOverOpen {
+  transform: translate(7px, -7px);
+  float: right;
+  background-color: rgb(182, 244, 180);
+}
+
+.toggleOverClosed {
+  transform: translate(6px, -7px);
+  float: left;
+  transform: translate(0px, -7px);
+}
+
+@keyframes floatUpHigh {
+  from {transform: translate(-50%, 160px)}
+  to {transform: translate(-50%, -100%)}
+}
+
+@keyframes floatUp {
+  from {transform: translate(-50%, 160px)}
+  to {transform: translate(-50%, 0px)}
+}
+
+@keyframes floatDown {
+  from {transform: translate(-50%, 0px)}
+  to {transform: translate(-50%, 160px)}
+}
+
+@keyframes floatRight {
+  from {transform: translate(var(--card-float))}
+  to {transform: translateX(0px)}
+}
+
+@keyframes floatLeft {
+  from {transform: translateX(0px)}
+  to {transform: translate(var(--card-float))}
+}
+
+@keyframes expand {
+  0% {transform: scale(0%)}
+  55% {transform: scale(115%)}
+  100% {transform: scale(100%)}
+}
+
+@keyframes deflate {
+  from {transform: scale(100%)}
+  to {transform: scale(0%)}
+}
+
+@keyframes burgerClockTop {
+  0% {transform: translate(-50%, -50%) rotate(45deg);}
+  45% {transform: translate(-50%, 140%);}
+  85% {transform: translate(-50%, -310%);}
+  100% {transform: translate(-50%, -240%);}
+}
+
+@keyframes burgerClockMiddle {
+  0% {transform: translate(-50%, -50%) rotate(45deg);}
+  45% {transform: translate(-50%, 140%);}
+  85% {transform: translate(-50%, -75%);}
+  100% {transform: translate(-50%, -50%);}
+}
+
+@keyframes burgerClockWise {
+  0% {transform: translate(-50%, -50%) rotate(-45deg);}
+  45% {transform: translate(-50%, 140%);}
+  85% {transform: translate(-50%, 140%);}
+  100% {transform: translate(-50%, 140%);}
+}
+
+@keyframes burgerClockTopCross {
+  0% {transform: translate(-50%, -240%);}
+  45% {transform: translate(-50%, 140%);}
+  85% {transform: translate(-50%, -50%) rotate(52deg);}
+  100% {transform: translate(-50%, -50%) rotate(45deg);}
+}
+
+@keyframes burgerClockMiddleCross {
+  0% {transform: translate(-50%, -50%);}
+  45% {transform: translate(-50%, 140%);}
+  85% {transform: translate(-50%, -50%) rotate(52deg);}
+  100% {transform: translate(-50%, -50%) rotate(45deg);}
+}
+
+@keyframes burgerClockWiseCross {
+  0% {transform: translate(-50%, 140%);}
+  45% {transform: translate(-50%, 140%);}
+  85% {transform: translate(-50%, -50%) rotate(-52deg);}
+  100% {transform: translate(-50%, -50%) rotate(-45deg);}
+}
+
+@keyframes headerDropDownMenuOpen {
+  0% {height: 65px;}
+  100% {height: var(--burger-menu-height);}
+}
+
+@keyframes headerDropDownMenuClosed {
+  0% {height: var(--burger-menu-height);}
+  100% {height: 65px;}
+}
+
+@keyframes headerDropDownMenuOpenSmall {
+  0% {height: 55px;}
+  100% {height: var(--burger-menu-height);}
+}
+
+@keyframes headerDropDownMenuClosedSmall {
+  0% {height: var(--burger-menu-height);}
+  100% {height: 55px;}
+}
+
+@keyframes headerDropDownContactIconClosed {
+  from {
+    -webkit-transform: translate(-50%, 50%);
+    transform: translate(-50%, 50%);
+  }
+  to {
+    -webkit-transform: translate(-50%, -125%);
+    transform: translate(-50%, -125%);
+  }
+}
+
+@keyframes headerDropDownContactIconOpen {
+  from {
+    -webkit-transform: translate(-50%, -125%);
+    transform: translate(-50%, -125%);
+  }
+  to {
+    -webkit-transform: translate(-50%, 50%);
+    transform: translate(-50%, 50%);
+  }
+}
+
+@keyframes popupOptionsOpen {
+  from {transform: translate(-50%, 100%)}
+  to {transform: translate(-50%, 0%)}
+}
+
+@keyframes popupOptionsClosed {
+  from {transform: translate(-50%, 0%)}
+  to {transform: translate(-50%, 100%)}
+}
+
+@keyframes popupContactOpen {
+  from {transform: translate(-50%, 100%)}
+  to {transform: translate(-50%, 0%)}
+}
+
+@keyframes popupContactClosed {
+  from {transform: translate(-50%, 0%)}
+  to {transform: translate(-50%, 100%)}
+}
