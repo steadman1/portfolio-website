@@ -112,6 +112,7 @@ class ApartmentScene {
         }, async (progress) => {
             progress.total = 62793993;
             this.apartmentLoaded = progress.loaded / progress.total;
+            console.log(progress);
             progressCallback(this.apartmentLoaded);
         });
     }
