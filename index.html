@@ -539,9 +539,12 @@
         addEventListener("gltfLoad", () => {
             const toggles = document.getElementsByClassName("toggleOver");
             for (let i = 0; i < toggles.length; i++) {
-                toggle(toggles[i].getAttribute("id"), true)
+                const toggleId = toggles[i].getAttribute("id");
+                toggle(toggleId, true);
+                
+                console.log(toggleId);
 
-                toggles[i].addEventListener("click", () => toggle(toggles[i].getAttribute("id")))
+                toggles[i].addEventListener("click", () => toggle(toggles[i].getAttribute("id"), false));
             }
         })
 
