@@ -119,7 +119,7 @@ apartmentScene.GLTFSetup((value) => {
     let loadPercentText = document.getElementById("loadPercentText");
     let loadPercentBar = document.getElementById("loadPercentBar");
 	
-    console.log("testing");
+    console.log(percentText);
 
     let percentText = Math.round(value * 100).toString();
 
