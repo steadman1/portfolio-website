@@ -118,6 +118,8 @@ const gltfLoad = new Event("gltfLoad", {"bubbles":true, "cancelable":false});
 apartmentScene.GLTFSetup((value) => {
     let loadPercentText = document.getElementById("loadPercentText");
     let loadPercentBar = document.getElementById("loadPercentBar");
+	
+    console.log("testing");
 
     let percentText = Math.round(value * 100).toString();
 
