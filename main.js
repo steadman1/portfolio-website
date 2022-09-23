@@ -118,10 +118,9 @@ const gltfLoad = new Event("gltfLoad", {"bubbles":true, "cancelable":false});
 apartmentScene.GLTFSetup((value) => {
     let loadPercentText = document.getElementById("loadPercentText");
     let loadPercentBar = document.getElementById("loadPercentBar");
-	
-    console.log(percentText);
 
     let percentText = Math.round(value * 100).toString();
+    console.log(percentText);
 
     loadPercentText.textContent = "0".repeat(3 - percentText.length) + percentText;
     loadPercentBar.style.width = percentText + "%";
