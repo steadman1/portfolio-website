@@ -110,6 +110,7 @@ class ApartmentScene {
             this.apartmentGLTF = obj.scene;
 
         }, async (progress) => {
+            console.log(progress);
             this.apartmentLoaded = progress.loaded / progress.total;
             progressCallback(this.apartmentLoaded);
         });
