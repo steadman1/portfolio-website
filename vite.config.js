@@ -14,8 +14,8 @@ export default defineConfig({
       input: {
         main: resolve(root, 'index.html'),
         pinit: resolve(root, 'pinit.html'),
-        privacy: resolve(root, 'pinit.html'),
-        support: resolve(root, 'pinit.html'),
+        privacy: resolve(root, 'privacy.html'),
+        support: resolve(root, 'support.html'),
       }
     }
   }
