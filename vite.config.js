@@ -7,6 +7,7 @@ const outDir = resolve(__dirname, 'dist')
 export default defineConfig({
     assetsInclude: ['**/*.gltf'],
     build: {
+    chunkSizeWarningLimit: 600,
     outDir,
     emptyOutDir: true,
     rollupOptions: {
@@ -15,6 +16,5 @@ export default defineConfig({
         about: resolve(root, 'about', 'index.html'),
       }
     }
-    chunkSizeWarningLimit: 600
   }
 })
