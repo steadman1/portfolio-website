@@ -13,8 +13,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(root, 'index.html'),
+        pinit: resolve(root, 'pinit.html'),
         privacy: resolve(root, 'pinit.html'),
-        support: resolve(root, 'index.html'),
+        support: resolve(root, 'pinit.html'),
       }
     }
   }
