@@ -16,6 +16,8 @@ export default defineConfig({
         pinit: resolve(root, 'pinit.html'),
         privacy: resolve(root, 'privacy.html'),
         support: resolve(root, 'support.html'),
+        wristgpt-privacy: resolve(root, 'wristgpt-privacy.html'),
+        wristgpt-support: resolve(root, 'wristgpt-support.html'),
       }
     }
   }
