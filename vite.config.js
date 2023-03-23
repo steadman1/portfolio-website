@@ -18,7 +18,10 @@ export default defineConfig({
         support: resolve(root, 'support.html'),
         watchai_privacy: resolve(root, 'watchai-privacy.html'),
         watchai_support: resolve(root, 'watchai-support.html'),
-          watchai_eula: resolve(root, 'watchai-eula.html'),
+        watchai_eula: resolve(root, 'watchai-eula.html'),
+        liminal_browser_privacy: resolve(root, 'liminal-browser-privacy.html'),
+        liminal_browser_support: resolve(root, 'liminal-browser-support.html'),
+        liminal_browser_eula: resolve(root, 'liminal-browser-eula.html'),
       }
     }
   }
