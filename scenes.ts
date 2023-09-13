@@ -110,8 +110,7 @@ class ApartmentScene {
             this.apartmentGLTF = obj.scene;
 
         }, async (progress) => {
-            progress.total = 62793993;
-            console.log(progress);
+            //progress.total = 62793993;
             this.apartmentLoaded = progress.loaded / progress.total;
             progressCallback(this.apartmentLoaded);
         });
@@ -343,7 +342,7 @@ class ApartmentScene {
 
                     this.controls.enabled = true;
                     card.style.animation = "floatLeft 0.4s ease-in-out 1";
-                    card.style.transform = "translate(var(--card-float))";
+                    card.style.transform = "translate(var(--card-float), -50%)";
                 } else {
 
                     if (selector !== null && mouse !== undefined) {
@@ -367,7 +366,7 @@ class ApartmentScene {
 
                     this.controls.enabled = false;
                     card.style.animation = "floatRight 0.55s ease-out 1";
-                    card.style.transform = "translateX(0px)";
+                    card.style.transform = "translate(50px, -50%)";
                 }
             }
         }

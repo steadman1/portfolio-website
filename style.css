@@ -42,7 +42,7 @@
   --color-highlight-code: rgb(150, 150, 150);
   --border-grey: rgb(214, 214, 214);
   --hover-seconds: 0.1s;
-  --card-float: -410px;
+  --card-float: calc(-110px - 100%);
   --burger-seconds: 0.5s;
   --buger-menu-seconds: 0.35s;
   --burger-menu-height: 200px;
@@ -281,7 +281,7 @@ body, html {
 }
 
 .contactBio {
-  width: 50%;
+  width: calc(50% - 20px);
   height: 50%;
 }
 
@@ -660,12 +660,13 @@ body, html {
 }
 
 .infoCard {
-  position: absolute;
-  height: 500px;
-  width: 400px;
+  position: fixed;
+  top: 42%;
+  height: 550px;
+  width: calc(100% - 100px);
   background-color: whitesmoke;
   border-radius: 25px;
-  transform: translate(var(--card-float));
+  transform: translate(var(--card-float), -50%);
   box-shadow: 6px 10px 35px rgba(29, 29, 29, 0.204);
 }
 
@@ -778,15 +779,6 @@ body, html {
   .workText {
     font-size: 11px;
   }
-
-  .infoCard {
-    height: 400px;
-    width: 300px;
-  }
-  .infoCardTitle {
-    width: 200px;
-    font-size: 22px;
-  }
   .closeIcon {
     height: 35px;
     width: 35px;
@@ -803,7 +795,10 @@ body, html {
     height: 16px;
     width: 2px;
   }
-
+  .infoCardTitle {
+    width: 130px;
+    font-size: 22px;
+  }
   .introText {
     font-size: 12px;
   }
@@ -1018,13 +1013,13 @@ body, html {
 }
 
 @keyframes floatRight {
-  from {transform: translate(var(--card-float))}
-  to {transform: translateX(0px)}
+  from {transform: translate(var(--card-float), -50%)}
+  to {transform: translate(50px, -50%)}
 }
 
 @keyframes floatLeft {
-  from {transform: translateX(0px)}
-  to {transform: translate(var(--card-float))}
+  from {transform: translate(50px, -50%)}
+  to {transform: translate(var(--card-float), -50%)}
 }
 
 @keyframes expand {
