@@ -24,6 +24,7 @@ class ApartmentScene {
     sceneToAdd: Array<Three.Object3D>;
     sceneExtras: Array<Three.Object3D>;
     outlineElements: Record<string, string>;
+   intersectElements: Record<string, string>;
     raycaster: Three.Raycaster;
     activeCameraView: String | null;
 
@@ -42,27 +43,39 @@ class ApartmentScene {
         this.outlineElements = {
             "Cube029" : "record_box",
             "Cube032" : "record_box",
+            "Cube141" : "pc",
+            "Cube195": "teddie",
+            "Plane239" : "shoe",
+            "Plane233" : "shoe",
             "Sphere012" : "camera",
             "Sphere013" : "camera",
+        }
+        // use this for outline elements that dont have "_outline" at the end of their names
+        this.intersectElements = {
+            "Cube070" : "pc",
+            "Cube105": "teddie",
+            "shoe_left" : "shoe",
+            "shoe_right" : "shoe",
         }
         this.raycaster = new Three.Raycaster();
         this.activeCameraView = null;
     }
 
     GLTFSetup(progressCallback) {
+        console.log(this)
         const gltfLoader = new GLTFLoader();
 
         const sceneToAdd = new Array();
         const sceneExtras = new Array();
 
         gltfLoader.load(ApartmentGLTF, (obj) => {
-            obj.scene.traverse(function (object) {
+            obj.scene.traverse((object) => {
                 // const objHelper = new Three.BoxHelper(object);
                 // scene.add(objHelper);
                 if (object.isMesh) {
                     //object.material.flatShading = Three.SmoothShading;
 
-                    if (!object.name.endsWith("_no_cast") || !object.name.endsWith("_outline")) {
+                    if (!object.name.endsWith("_no_cast") || !object.name.endsWith("_outline") || !this.outlineElements.hasOwnProperty(object.name)) {
                         object.castShadow = true;
                         object.receiveShadow = true;
                     }
@@ -75,7 +88,7 @@ class ApartmentScene {
                     object.shadow.mapSize.width = 512;
                     object.shadow.mapSize.height = 512;
                 }
-                if (object.name.endsWith("_outline")) {
+                if (object.name.endsWith("_outline") || this.intersectElements.hasOwnProperty(object.name)) {
 
                     const outlineMaterial = new Three.MeshBasicMaterial({color: 0xffffff, side: Three.BackSide});
 
@@ -84,12 +97,23 @@ class ApartmentScene {
 
                         mesh.material = outlineMaterial;
 
+                        mesh.position.set(
+                            object.position.x,
+                            object.position.y,
+                            object.position.z,
+                        );
                         mesh.rotation.set(
                             object.rotation.x,
                             object.rotation.y,
                             object.rotation.z,
                         );
-
+                        const scaleFactor = 2;
+                        mesh.scale.set(
+                            object.scale.x + scaleFactor,
+                            object.scale.y + scaleFactor,
+                            object.scale.z + scaleFactor,
+                        );
+                        
                         sceneToAdd.push([mesh, object]);
                     }
 
@@ -184,17 +208,18 @@ class ApartmentScene {
                 }
 
                 intersect_split = intersect.name.split("_")[0];
+                console.log(intersect_split)
 
                 if (this.outlineElements[intersect_split] === "camera" 
                     && intersect.visible
                     && this.outlineElements.hasOwnProperty(intersect_split)) {
 
                     this.cameraIntersect(intersect)
-                } else if (this.outlineElements[intersect_split] === "record_box" 
+                } else if (["record_box", "teddie", "pc", "shoe"].includes(this.outlineElements[intersect_split])
                     && intersect.visible
                     && this.outlineElements.hasOwnProperty(intersect_split)) {
 
-                    this.infoCardIntersect(false, mouse);
+                    this.infoCardIntersect(false, this.outlineElements[intersect_split], mouse);
                 }
             }
         }
@@ -223,7 +248,7 @@ class ApartmentScene {
                 }, 550)
             } else if (cameraView === null) {
                 button.style.animation = "floatDown 0.3s ease-in-out 1";
-                button.style.transform = "translate(-50%, 160px)";
+                button.style.transform = "translate(-50%, max(160px, 0))";
 
                 if (!this.controls.enabled) {
                     this.infoCardIntersect(true)
@@ -320,56 +345,69 @@ class ApartmentScene {
         }, 150)
     }
 
-    private infoCardIntersect(close?: boolean, mouse?: Three.Vector2) {
+    private infoCardIntersect(close?: boolean, name?: string, mouse?: Three.Vector2) {
 
         if (this.activeCameraView === null) return
+        if (close) {
+            const cards = document.getElementsByClassName("infoCard");
+            const selector = document.createElement("div");
+            selector.classList.add("selector");
 
-        const recordBoxCard = document.getElementsByClassName("infoCard");
-        for (let i = 0; i < recordBoxCard.length; i++) {
-            const card = recordBoxCard[i];
+            if (selector !== null) {
+                this.deleteAllSelectors();
+            }
 
-            if (card !==  null) {
-                
-                const selector = document.createElement("div");
-                selector.classList.add("selector");
+            for (let i = 0; i < cards.length; i++) {
+                this.controls.enabled = true;
 
-                const selectors = document.getElementsByClassName("selector");
-
-                if (close) {
-                    if (selector !== null) {
-                        this.deleteAllSelectors();
-                    }
-
-                    this.controls.enabled = true;
-                    card.style.animation = "floatLeft 0.4s ease-in-out 1";
-                    card.style.transform = "translate(var(--card-float), -50%)";
-                } else {
-
-                    if (selector !== null && mouse !== undefined) {
-
-                        if (selectors.length > 0) {
-                            this.deleteFirstSelector();
-                        }
-                        
-                        document.body.appendChild(selector);
-
-                        let width = parseInt(getComputedStyle(selector).width.replace("px", ""));
-
-                        let coord = (x, size) => (x - size).toString() + "px"
-
-                        selector.style.bottom = coord((mouse.y + 1) / 2 * window.innerHeight, width - 10);
-                        selector.style.left = coord((mouse.x + 1) / 2 * window.innerWidth, width / 2);
-
-                        selector.style.animation = "expand 0.2s ease-out 1";
-                        selector.style.transform = "scale(100%)";
-                    }
-
-                    this.controls.enabled = false;
-                    card.style.animation = "floatRight 0.55s ease-out 1";
-                    card.style.transform = "translate(50px, -50%)";
+                if (cards[i].style.animation.includes("floatRight")) {
+                    cards[i].style.animation = "floatLeft 0.4s ease-in-out 1";
+                    cards[i].style.transform = "translate(var(--card-float), -50%)";
                 }
             }
+            return
         }
+
+        const card = document.getElementById(name + "InfoCard");
+
+        console.log(card)
+
+        if (card !== null) {
+                
+            const selector = document.createElement("div");
+            selector.classList.add("selector");
+
+            const selectors = document.getElementsByClassName("selector");
+
+            if (selector !== null && mouse !== undefined) {
+
+                if (selectors.length > 0) {
+                    this.deleteFirstSelector();
+                }
+                
+                document.body.appendChild(selector);
+
+                let width = parseInt(getComputedStyle(selector).width.replace("px", ""));
+
+                let coord = (x, size) => (x - size).toString() + "px"
+
+                selector.style.bottom = coord((mouse.y + 1) / 2 * window.innerHeight, width - 10);
+                selector.style.left = coord((mouse.x + 1) / 2 * window.innerWidth, width / 2);
+
+                selector.style.animation = "expand 0.2s ease-out 1";
+                selector.style.transform = "scale(100%)";
+            }
+
+            this.controls.enabled = false;
+            card.style.animation = "floatRight 0.55s ease-out 1";
+            card.style.transform = "translate(50px, -50%)";
+        }
+
+        // for (let i = 0; i < domCard.length; i++) {
+        //     const card = domCard[i];
+
+            
+        // }
     }
 
     private returnView() {

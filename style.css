@@ -477,7 +477,7 @@ body, html {
 .headerContact {
   width: 150px;
   height: 65px;
-  margin: auto 0 auto 0;
+  margin: auto 0 auto 20;
   border-radius: 20px;
   box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
   display: flex;
@@ -587,7 +587,7 @@ body, html {
 }
 
 .options {
-  margin: auto 10px auto auto;
+  margin: auto 0px auto auto;
   display: flex;
   vertical-align: middle;
 }
@@ -664,6 +664,7 @@ body, html {
   top: 42%;
   height: 550px;
   width: calc(100% - 100px);
+  max-width: 750px;
   background-color: whitesmoke;
   border-radius: 25px;
   transform: translate(var(--card-float), -50%);
@@ -740,11 +741,11 @@ body, html {
   }
   .headerDropDownMenu {
     display: block;
-  } 
-  .headerContact {
-    display: none;
   }
-  .options {
+  .headerStacked {
+    display: block;
+  }
+  .headerInline {
     display: none;
   }
   .profilePictureIntro{
