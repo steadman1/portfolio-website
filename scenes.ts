@@ -62,7 +62,6 @@ class ApartmentScene {
     }
 
     GLTFSetup(progressCallback) {
-        console.log(this)
         const gltfLoader = new GLTFLoader();
 
         const sceneToAdd = new Array();
@@ -187,6 +186,11 @@ class ApartmentScene {
 
             const intersects = this.raycaster.intersectObject( this.scene, true );
 
+            // for (let i = 0; i < intersects.length; i++) {
+            //     console.log(intersects[i].object.name)
+                
+            // }
+
             if ( intersects.length > 0) {
 
                 let intersect_split;
@@ -208,7 +212,6 @@ class ApartmentScene {
                 }
 
                 intersect_split = intersect.name.split("_")[0];
-                console.log(intersect_split)
 
                 if (this.outlineElements[intersect_split] === "camera" 
                     && intersect.visible
@@ -362,15 +365,13 @@ class ApartmentScene {
 
                 if (cards[i].style.animation.includes("floatRight")) {
                     cards[i].style.animation = "floatLeft 0.4s ease-in-out 1";
-                    cards[i].style.transform = "translate(var(--card-float), -50%)";
+                    cards[i].style.transform = "translateX(var(--card-float))";
                 }
             }
             return
         }
 
         const card = document.getElementById(name + "InfoCard");
-
-        console.log(card)
 
         if (card !== null) {
                 
@@ -400,7 +401,7 @@ class ApartmentScene {
 
             this.controls.enabled = false;
             card.style.animation = "floatRight 0.55s ease-out 1";
-            card.style.transform = "translate(50px, -50%)";
+            card.style.transform = "translateX(30px)";
         }
 
         // for (let i = 0; i < domCard.length; i++) {

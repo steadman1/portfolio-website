@@ -661,13 +661,13 @@ body, html {
 
 .infoCard {
   position: fixed;
-  top: 42%;
-  height: 550px;
-  width: calc(100% - 100px);
+  top: 20px;
+  height: calc(100% - 185px);
+  width: calc(100% - 60px);
   max-width: 750px;
   background-color: whitesmoke;
   border-radius: 25px;
-  transform: translate(var(--card-float), -50%);
+  transform: translate(var(--card-float));
   box-shadow: 6px 10px 35px rgba(29, 29, 29, 0.204);
 }
 
@@ -677,6 +677,45 @@ body, html {
   width: 250px;
   margin: 15px 0 0 22px;
   float: left;
+}
+
+.imageScroller {
+  display: flex;
+  width: 100%;
+  margin-top: 15px;
+  float: left;
+  justify-content: center;
+}
+
+.imageScrollerNavigationBox {
+  display: flex;
+  width: 100%;
+  float: left;
+  justify-content: center;
+}
+
+.imageScrollerNavigation {
+  display: flex;
+  max-width: 300px;
+  width: calc(100% - 50px);
+  margin: 15px auto 0 auto;
+}
+
+.imageScrollerNavigateButton {
+  margin: auto;
+}
+
+.scrollerImage {
+  max-width: 300px;
+  width: calc(100% - 50px);
+  margin: auto;
+  border-radius: 15px;
+  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.216);
+  transition: transform 0.7s cubic-bezier(0.075, 1.45, 0.165, 1);
+}
+
+.scrollerImageActive {
+  transition: transform 0.3s cubic-bezier(0.075, 1, 0.265, 1.25);
 }
 
 .burger {
@@ -1010,13 +1049,13 @@ body, html {
 }
 
 @keyframes floatRight {
-  from {transform: translate(var(--card-float), -50%)}
-  to {transform: translate(50px, -50%)}
+  from {transform: translateX(var(--card-float))}
+  to {transform: translateX(30px)}
 }
 
 @keyframes floatLeft {
-  from {transform: translate(50px, -50%)}
-  to {transform: translate(var(--card-float), -50%)}
+  from {transform: translateX(30px)}
+  to {transform: translateX(var(--card-float))}
 }
 
 @keyframes expand {

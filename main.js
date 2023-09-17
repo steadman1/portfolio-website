@@ -90,7 +90,7 @@ function init() {
 }
 
 function updateOptions() {
-    renderer.setPixelRatio( window.devicePixelRatio * window.resolution ? 1.1 : 0.8 );
+    renderer.setPixelRatio( window.devicePixelRatio * window.resolution ? 1.2 : 0.8 );
     renderer.shadowMap.enabled = window.shadows;
     renderer.antialias = window.edgeSmooth;
     interval = 1 / (window.frameCap ? 60 : 30);

@@ -46,7 +46,8 @@
                 </div>
                 <div class="cardRow" style="margin-top: 12px;">
                     <h1 class="introText introLineNumber introLineNumberFocused">5</h1>
-                    <h1 class="introText introLineText">I've, most notably, developed iOS apps</h1>
+                    <h1 class="introText introLineText">I've, most notably, developed iOS apps.</h1>
+                    <div class="cursor"></div>
                 </div>
             </div>
             <div name="introElement" class="cardStack intro inActiveIntro">
@@ -104,7 +105,7 @@
             <h2 class="returnMainViewText">return to main view</h2>
         </div>
     </div>
-    
+
     <div id="record_boxInfoCard" class="threeInFront infoCard">
         <h2 class="infoCardTitle">My music</h2>
 
@@ -115,13 +116,13 @@
             </div>
         </div>
 
-        <div class="recordScroller">
+        <div class="imageScroller">
 
         </div>
     </div>
 
     <div id="teddieInfoCard" class="threeInFront infoCard">
-        <h2 class="infoCardTitle">My beautiful cat</h2>
+        <h2 class="infoCardTitle">My lovely cat, Teddie</h2>
 
         <div class="closeIcon closeIconUnder">
             <div class="closeIcon closeIconOver point">
@@ -130,8 +131,26 @@
             </div>
         </div>
 
-        <div class="recordScroller">
-
+        <div class="imageScroller">
+            <img id="1" name="teddieImage" class="scrollerImage scrollerImageActive" src="./assets/teddie/render.png">
+            <img id="2" name="teddieImage" class="scrollerImage" src="./assets/teddie/window.JPG">
+            <img id="3" name="teddieImage" class="scrollerImage" src="./assets/teddie/box.jpg">
+            <img id="4" name="teddieImage" class="scrollerImage" src="./assets/teddie/halloween.jpg">
+            <img id="5" name="teddieImage" class="scrollerImage" src="./assets/teddie/chair.jpg">
+        </div>
+        <div class="imageScrollerNavigationBox">
+            <div class="imageScrollerNavigation">
+                <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('teddieImage', false)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                      </svg>
+                </div>
+                <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('teddieImage', true)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                      </svg>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -145,7 +164,7 @@
             </div>
         </div>
 
-        <div class="recordScroller">
+        <div class="imageScroller">
 
         </div>
     </div>
@@ -160,7 +179,7 @@
             </div>
         </div>
 
-        <div class="recordScroller">
+        <div class="imageScroller">
 
         </div>
     </div>
@@ -466,6 +485,78 @@
             }
         }
 
+        function imageScrollLoad() {
+            const images = document.getElementsByClassName("scrollerImage");
+            let previousName = "";
+            for (var i = 0; i < images.length; i++) {
+                if (images[i].name !== previousName) {
+                    const namedImages = document.getElementsByName(images[i].name);
+                    for (let index = 0; index < namedImages.length; index++) {
+                        const image = namedImages[index];
+                        const width = Math.min(window.innerWidth - 110, 300);
+                        const absIndex = Math.abs(index);
+
+                        image.style.width = width + "px";
+                        image.style.transformOrigin = "bottom center";
+
+                        const translate = "translate(" + (Math.floor(images.length / 2) * width - index * (width - 16)) + "px, " + (index * -12) + "px)";
+                        const rotate = "rotate(" + index * 3 + "deg)";
+                        const scale = "scale(" + (1 - (absIndex * 0.08)) + ")";
+
+                        image.style.transform = translate + " " + rotate + " " + scale;
+
+                        image.style.zIndex = -absIndex;
+                    }
+                    previousName = images[i].name;
+                }
+            }
+        }
+
+        function imageScroll(name, right) {
+            const images = document.getElementsByName(name);
+
+            let active = 0
+            
+            for (let index = 0; index < images.length; index++) {
+                const image = images[index];
+                if (image.classList.contains("scrollerImageActive")) { 
+                    active = parseInt(image.id) - 1
+                }
+            }
+            images[active].classList.remove("scrollerImageActive");
+
+            if (right) {
+                active++;
+            } else {
+                active--;
+            }
+
+            if (active < 0) {
+                active = images.length - 1;
+            } else if (active >= images.length) {
+                active = 0;
+            }
+
+            for (let i = 0; i < images.length; i++) {
+                const image = images[i];
+                const width = Math.min(window.innerWidth - 110, 300);
+                const absIndex = Math.abs(i - active);
+
+                image.style.width = width + "px";
+                image.style.transformOrigin = "bottom center";
+
+                const translate = "translate(" + ((Math.floor(images.length / 2) - active) * width - (i - active) * (width - 16)) + "px, " + (Math.abs(i - active) * -12) + "px)";
+                const rotate = "rotate(" + (i - active) * 3 + "deg)";
+                const scale = "scale(" + (1 - (absIndex * 0.08)) + ")";
+
+                image.style.transform = translate + " " + rotate + " " + scale;
+
+                image.style.zIndex = -absIndex;
+            }
+
+            images[active].classList.add("scrollerImageActive");
+        }
+
         function popupOpenClose(id, forceClose = undefined, threeCanvasFog = true) {
 
             const el = document.getElementById(id);
@@ -632,7 +723,7 @@
 
             introIndex++;
         }
-
+        imageScrollLoad()
     </script>
     <script type="module" src="/main.js"></script>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
