@@ -831,6 +831,9 @@ body, html {
     height: 16px;
     width: 2px;
   }
+  .infoCard {
+    height: calc(100% - 40px);
+  }
   .infoCardTitle {
     width: 130px;
     font-size: 22px;
