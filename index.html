@@ -131,31 +131,46 @@
             </div>
         </div>
 
-        <div class="imageScroller">
-            <img id="1" name="teddieImage" class="scrollerImage scrollerImageActive" src="./assets/teddie/render.png">
-            <img id="2" name="teddieImage" class="scrollerImage" src="./assets/teddie/window.JPG">
-            <img id="3" name="teddieImage" class="scrollerImage" src="./assets/teddie/box.jpg">
-            <img id="4" name="teddieImage" class="scrollerImage" src="./assets/teddie/halloween.jpg">
-            <img id="5" name="teddieImage" class="scrollerImage" src="./assets/teddie/chair.jpg">
-        </div>
-        <div class="imageScrollerNavigationBox">
-            <div class="imageScrollerNavigation">
-                <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('teddieImage', false)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
-                      </svg>
+        <div class="scrollable">
+            <div class="imageScroller">
+                <img id="1" name="teddieImage" class="scrollerImage scrollerImageActive" src="./assets/teddie/render.png">
+                <img id="2" name="teddieImage" class="scrollerImage" src="./assets/teddie/window.JPG">
+                <img id="3" name="teddieImage" class="scrollerImage" src="./assets/teddie/box.jpg">
+                <img id="4" name="teddieImage" class="scrollerImage" src="./assets/teddie/halloween.jpg">
+                <img id="5" name="teddieImage" class="scrollerImage" src="./assets/teddie/chair.jpg">
+            </div>
+            <div class="imageScrollerNavigationBox">
+                <div class="imageScrollerNavigation">
+                    <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('teddieImage', false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                        </svg>
+                    </div>
+                    <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('teddieImage', true)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                        </svg>
+                    </div>
                 </div>
-                <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('teddieImage', true)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-                      </svg>
+            </div>
+
+            <div class="infoCardDescriptionBox">
+                <div class="infoCardDescription">
+                    <h1 class="workName">Pictures</h1>
+                    <h1 class="workText">Some nice pictures of Teddie! — plus the beautiful render of her in the office chair.</h1>
+                    <h1 class="workName">Significance</h1>
+                    <h1 class="workText">
+                        My cat, Teddie, has been a big part of my life ever since adopting her in 2015. 
+                        She's always been able to lift my mood especially after a long work grind. 
+                        Plus, I had to include her sitting on my chair, just look at how pretty she is!
+                    </h1>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="pcInfoCard" class="threeInFront infoCard">
-        <h2 class="infoCardTitle">My pc</h2>
+        <h2 class="infoCardTitle">My pc (and laptop)</h2>
 
         <div class="closeIcon closeIconUnder">
             <div class="closeIcon closeIconOver point">
@@ -164,13 +179,48 @@
             </div>
         </div>
 
-        <div class="imageScroller">
-
+        <div class="scrollable">
+            <div class="imageScroller">
+                <img id="1" name="pcImage" class="scrollerImage scrollerImageActive" src="./assets/pc/render.png">
+                <img id="2" name="pcImage" class="scrollerImage" src="./assets/pc/pc.png">
+                <img id="3" name="pcImage" class="scrollerImage" src="./assets/pc/laptop.png">
+                <img id="4" name="pcImage" class="scrollerImage" src="./assets/pc/radio.PNG">
+                <img id="5" name="pcImage" class="scrollerImage" src="./assets/pc/delorean.PNG">
+            </div>
+            <div class="imageScrollerNavigationBox">
+                <div class="imageScrollerNavigation">
+                    <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('pcImage', false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                          </svg>
+                    </div>
+                    <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('pcImage', true)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                          </svg>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="infoCardDescriptionBox">
+                <div class="infoCardDescription">
+                    <h1 class="workName">Pictures</h1>
+                    <h1 class="workText">The pc I built in 2018! — plus my laptop and some misc. renders I've made with it.</h1>
+                    <h1 class="workName">Significance</h1>
+                    <h1 class="workText">
+                        My pc (and laptop) has always been a source of passion: computers and programming, however, 
+                        more importantly, it's a symbol of my how my brother has impacted me. Since I can remember, 
+                        I've always looked up to my brother, Wil, who's had an incredible impact on me. He's pushed, 
+                        challeneged, and introduced me to every single aspect of who I have become today. His influnce
+                        over me cannot be understated even though a majority of it was pretty indirect.
+                    </h1>
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="shoeInfoCard" class="threeInFront infoCard">
-        <h2 class="infoCardTitle">My shoes</h2>
+        <h2 class="infoCardTitle">My shoes (& athletics)</h2>
 
         <div class="closeIcon closeIconUnder">
             <div class="closeIcon closeIconOver point">
@@ -178,9 +228,43 @@
                 <div class="cross crossCounterClockWise"></div>
             </div>
         </div>
-
-        <div class="imageScroller">
-
+        <div class="scrollable">
+            <div class="imageScroller">
+                <img id="1" name="shoeImage" class="scrollerImage scrollerImageActive" src="./assets/shoes/render.png">
+                <img id="2" name="shoeImage" class="scrollerImage" src="./assets/shoes/signature.JPG">
+                <img id="3" name="shoeImage" class="scrollerImage" src="./assets/shoes/stretch.jpeg">
+                <img id="4" name="shoeImage" class="scrollerImage" src="./assets/shoes/bed.jpeg">
+                <img id="5" name="shoeImage" class="scrollerImage" src="./assets/shoes/cap.jpeg">
+            </div>
+            <div class="imageScrollerNavigationBox">
+                <div class="imageScrollerNavigation">
+                    <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('shoeImage', false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                          </svg>
+                    </div>
+                    <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('shoeImage', true)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                          </svg>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="infoCardDescriptionBox">
+                <div class="infoCardDescription">
+                    <h1 class="workName">Pictures</h1>
+                    <h1 class="workText">Some pictures of me and how "my shoes" (athletics) play a huge role in my life.</h1>
+                    <h1 class="workName">Significance</h1>
+                    <h1 class="workText">
+                        Shoes, or the lack thereof in swimming, seem to be a constant change in my life.
+                        From flip flops to track spikes to swim fins to no shoes at all, I've loved every
+                        single moment where I could put on those shoes and be in the moment. Athletics
+                        have been, by far, the largest impact on my ability to push myself beyond my 
+                        limits and become a more resiliant individual.
+                    </h1>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -491,22 +575,26 @@
             for (var i = 0; i < images.length; i++) {
                 if (images[i].name !== previousName) {
                     const namedImages = document.getElementsByName(images[i].name);
+                    console.log(namedImages.length)
                     for (let index = 0; index < namedImages.length; index++) {
                         const image = namedImages[index];
                         const width = Math.min(window.innerWidth - 110, 300);
-                        const absIndex = Math.abs(index);
 
                         image.style.width = width + "px";
                         image.style.transformOrigin = "bottom center";
 
-                        const translate = "translate(" + (Math.floor(images.length / 2) * width - index * (width - 16)) + "px, " + (index * -12) + "px)";
+                        const translate = "translate(" + (Math.floor(namedImages.length / 2) * width - index * (width - 16)) + "px, " + (index * -12) + "px)";
                         const rotate = "rotate(" + index * 3 + "deg)";
-                        const scale = "scale(" + (1 - (absIndex * 0.08)) + ")";
+                        const scale = "scale(" + (1 - (index * 0.08)) + ")";
 
                         image.style.transform = translate + " " + rotate + " " + scale;
 
-                        image.style.zIndex = -absIndex;
+                        image.style.zIndex = -index;
                     }
+                    const scrollable = images[i].parentElement.parentElement
+                    const title = scrollable.parentElement.children[0]
+                    console.log(title.clientHeight + title.style.marginTop)
+                    scrollable.style.height = "calc(100% - " + (parseInt(title.clientHeight + title.style.marginTop) + 40) + "px)"
                     previousName = images[i].name;
                 }
             }
@@ -723,7 +811,9 @@
 
             introIndex++;
         }
-        imageScrollLoad()
+        setTimeout(() => {
+            imageScrollLoad();
+        }, 1000);
     </script>
     <script type="module" src="/main.js"></script>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>

@@ -352,7 +352,7 @@ body, html {
 
 .scrollable {
   width: calc(100% - 5px);
-  height: calc(100% - 100px);
+  height: 100%;
   padding-top: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -716,6 +716,18 @@ body, html {
 
 .scrollerImageActive {
   transition: transform 0.5s cubic-bezier(0.075, 1, 0.265, 1.25);
+}
+
+.infoCardDescriptionBox {
+  display: flex;
+  width: 100%;
+  float: left;
+  justify-content: center;
+}
+
+.infoCardDescription {
+  max-width: 300px;
+  width: calc(100% - 70px);
 }
 
 .burger {
