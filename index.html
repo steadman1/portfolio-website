@@ -107,7 +107,7 @@
     </div>
 
     <div id="record_boxInfoCard" class="threeInFront infoCard">
-        <h2 class="infoCardTitle">My music</h2>
+        <h2 class="infoCardTitle">My music (subject to change)</h2>
 
         <div class="closeIcon closeIconUnder">
             <div class="closeIcon closeIconOver point">
@@ -115,9 +115,38 @@
                 <div class="cross crossCounterClockWise"></div>
             </div>
         </div>
+        <div class="scrollable">
+            <div class="imageScroller">
+                <img id="1" name="record_boxImage" class="scrollerImage scrollerImageActive" src="./assets/shoes/render.png">
+                <img id="2" name="record_boxImage" class="scrollerImage" src="./assets/shoes/signature.JPG">
+                <img id="3" name="record_boxImage" class="scrollerImage" src="./assets/shoes/stretch.jpeg">
 
-        <div class="imageScroller">
-
+            </div>
+            <div class="imageScrollerNavigationBox">
+                <div class="imageScrollerNavigation">
+                    <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('record_boxImage', false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                          </svg>
+                    </div>
+                    <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('record_boxImage', true)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                          </svg>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="infoCardDescriptionBox">
+                <div class="infoCardDescription">
+                    <h1 class="workName">Pictures</h1>
+                    <h1 class="workText">Some of the album covers of my favorites artists and songs! Some honorable mentions: America, Men I Trust, and Laufey</h1>
+                    <h1 class="workName">Significance</h1>
+                    <h1 class="workText">
+                        music
+                    </h1>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -209,7 +238,7 @@
                     <h1 class="workName">Significance</h1>
                     <h1 class="workText">
                         My pc (and laptop) has always been a source of passion: computers and programming, however, 
-                        more importantly, it's a symbol of my how my brother has impacted me. Since I can remember, 
+                        more importantly, it's a symbol of how my brother has impacted me. Since I can remember, 
                         I've always looked up to my brother, Wil, who's had an incredible impact on me. He's pushed, 
                         challeneged, and introduced me to every single aspect of who I have become today. His influnce
                         over me cannot be understated even if a majority of it was somewhat indirect.
@@ -259,7 +288,7 @@
                     <h1 class="workText">
                         Shoes, or the lack thereof in swimming, seems to be a constant change in my life.
                         From flip flops to track spikes to swim fins to no shoes at all, I've loved every
-                        single moment where I could put on those shoes and be in the moment. Athletics
+                        single moment where I could put on (or take off) those shoes and be in the moment. Athletics
                         have been, by far, the largest impact on my ability to push myself beyond my 
                         limits and become a more resiliant individual.
                     </h1>
@@ -583,7 +612,7 @@
                         image.style.width = width + "px";
                         image.style.transformOrigin = "bottom center";
 
-                        const translate = "translate(" + (Math.floor(namedImages.length / 2) * width - index * (width - 16)) + "px, " + (index * -12) + "px)";
+                        const translate = "translate(" + ((namedImages.length / 2 - 0.5) * width - index * (width - 16)) + "px, " + (index * -12) + "px)";
                         const rotate = "rotate(" + index * 3 + "deg)";
                         const scale = "scale(" + (1 - (index * 0.08)) + ")";
 
@@ -633,7 +662,7 @@
                 image.style.width = width + "px";
                 image.style.transformOrigin = "bottom center";
 
-                const translate = "translate(" + ((Math.floor(images.length / 2) - active) * width - (i - active) * (width - 16)) + "px, " + (Math.abs(i - active) * -12) + "px)";
+                const translate = "translate(" + ((images.length / 2 - 0.5 - active) * width - (i - active) * (width - 16)) + "px, " + (Math.abs(i - active) * -12) + "px)";
                 const rotate = "rotate(" + (i - active) * 3 + "deg)";
                 const scale = "scale(" + (1 - (absIndex * 0.08)) + ")";
 
