@@ -251,7 +251,7 @@ class ApartmentScene {
                 }, 550)
             } else if (cameraView === null) {
                 button.style.animation = "floatDown 0.3s ease-in-out 1";
-                button.style.transform = "translate(-50%, max(160px, 0))";
+                button.style.transform = "translate(-50%, 160px)";
 
                 if (!this.controls.enabled) {
                     this.infoCardIntersect(true)

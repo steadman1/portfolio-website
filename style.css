@@ -41,6 +41,7 @@
   --color-code: rgb(197, 197, 197);
   --color-highlight-code: rgb(150, 150, 150);
   --border-grey: rgb(214, 214, 214);
+  --background: whitesmoke;
   --hover-seconds: 0.1s;
   --card-float: calc(-110px - 100%);
   --burger-seconds: 0.5s;
@@ -62,7 +63,7 @@ body, html {
   height: 100%;
   margin: 0;
   overflow: hidden;
-  background: rgb(233, 229, 237);
+  background: var(--background);
 }
 
 .boot {
@@ -710,7 +711,7 @@ body, html {
   width: calc(100% - 70px);
   margin: auto;
   border-radius: 15px;
-  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.216);
+  border: 4px var(--c) solid;
   transition: transform 0.75s cubic-bezier(0.075, 1.45, 0.165, 1);
 }
 
