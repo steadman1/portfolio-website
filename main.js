@@ -82,6 +82,12 @@ function init() {
 
         apartmentScene.environmentSetup()
         removeEventListener("click", onClick)
+
+        setTimeout(() => {
+            const card = document.getElementById("tutorialInfoCard");
+            card.style.animation = "floatRight 0.55s ease-out 1";
+            card.style.transform = "translateX(30px)";
+        }, 1000);
     }
 
     const enterInteractive = document.getElementById("enterInteractive");

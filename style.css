@@ -711,7 +711,7 @@ body, html {
   width: calc(100% - 70px);
   margin: auto;
   border-radius: 15px;
-  border: 4px var(--c) solid;
+  box-shadow: 4px 8px 24px rgba(29, 29, 29, 0.296);
   transition: transform 0.75s cubic-bezier(0.075, 1.45, 0.165, 1);
 }
 

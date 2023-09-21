@@ -79,7 +79,7 @@
                 </div>
                 <div class="cardRow" style="margin-top: 12px;">
                     <h1 class="introText introLineNumber introLineNumberFocused">11</h1>
-                    <h1 class="introText introLineText">(click button in the top right! trust me )</h1>
+                    <h1 class="introText introLineText">(click button in the top right, trust me!)</h1>
                     <div class="cursor"></div>
                 </div>
             </div>
@@ -106,6 +106,55 @@
         </div>
     </div>
 
+    <div id="tutorialInfoCard" class="threeInFront infoCard">
+        <h2 class="infoCardTitle">The hunt is on! (tutorial)</h2>
+
+        <div class="closeIcon closeIconUnder">
+            <div class="closeIcon closeIconOver point">
+                <div class="cross crossClockWise"></div>
+                <div class="cross crossCounterClockWise"></div>
+            </div>
+        </div>
+        <div class="scrollable">
+            <div class="imageScroller">
+                <img id="1" name="tutorialImage" class="scrollerImage scrollerImageActive" src="./assets/cameras.png">
+                <img id="2" name="tutorialImage" class="scrollerImage" src="./assets/record_box/render.png">
+                <img id="3" name="tutorialImage" class="scrollerImage" src="./assets/pc/render.png">
+                <img id="4" name="tutorialImage" class="scrollerImage" src="./assets/shoes/render.png">
+                <img id="5" name="tutorialImage" class="scrollerImage" src="./assets/teddie/render.png">
+            </div>
+            <div class="imageScrollerNavigationBox">
+                <div class="imageScrollerNavigation">
+                    <div id="imageScrollerNavigateLeft" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('tutorialImage', false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-left-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                          </svg>
+                    </div>
+                    <div id="imageScrollerNavigateRight" class="nextIntroButton imageScrollerNavigateButton" onclick="imageScroll('tutorialImage', true)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-arrow-right-short nextIntroIcon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                          </svg>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="infoCardDescriptionBox">
+                <div class="infoCardDescription">
+                    <h1 class="workName">Pictures</h1>
+                    <h1 class="workText">The focal points of these images are objects you can find in the scene! All are outlined, however, on some devices the outline may be difficult to see. Keep your eyes peeled and click/tap on the objects if you find them!! 🤩</h1>
+                    <h1 class="workName">Tips</h1>
+                    <h1 class="workText">
+                        This website is an interactive 3D scene that you can control! Click/tap on the cameras in the windows
+                        to get view the inside of Steadman Records and the aparment. To rotate the scene, hold and drag
+                        in the direction you want to view more of. To zoom in and out of the scene on a computer, scroll 
+                        up and down. To zoom on a mobile device use two fingers to pinch the screen similar to Google or
+                        Apple Maps. Keep your eyes peeled and click/tap on the objects in the pictures if you find them!! 
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="record_boxInfoCard" class="threeInFront infoCard">
         <h2 class="infoCardTitle">My music (subject to change)</h2>
 
@@ -117,12 +166,13 @@
         </div>
         <div class="scrollable">
             <div class="imageScroller">
-                <img id="1" name="record_boxImage" class="scrollerImage scrollerImageActive" src="./assets/record_box/tango_in_the_night.jpeg">
-                <img id="2" name="record_boxImage" class="scrollerImage" src="./assets/record_box/shakedown_street.jpeg">
-                <img id="3" name="record_boxImage" class="scrollerImage" src="./assets/record_box/aja.jpeg">
-                <img id="4" name="record_boxImage" class="scrollerImage" src="./assets/record_box/mm_food.jpeg">
-                <img id="5" name="record_boxImage" class="scrollerImage" src="./assets/record_box/discovery.jpeg">
-                <img id="6" name="record_boxImage" class="scrollerImage" src="./assets/record_box/graduation.jpeg">
+                <img id="1" name="record_boxImage" class="scrollerImage scrollerImageActive" src="./assets/record_box/render.png">
+                <img id="2" name="record_boxImage" class="scrollerImage" src="./assets/record_box/tango_in_the_night.jpeg">
+                <img id="3" name="record_boxImage" class="scrollerImage" src="./assets/record_box/shakedown_street.jpeg">
+                <img id="4" name="record_boxImage" class="scrollerImage" src="./assets/record_box/aja.jpeg">
+                <img id="5" name="record_boxImage" class="scrollerImage" src="./assets/record_box/mm_food.jpeg">
+                <img id="6" name="record_boxImage" class="scrollerImage" src="./assets/record_box/discovery.jpeg">
+                <img id="7" name="record_boxImage" class="scrollerImage" src="./assets/record_box/graduation.jpeg">
             </div>
             <div class="imageScrollerNavigationBox">
                 <div class="imageScrollerNavigation">

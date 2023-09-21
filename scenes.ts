@@ -349,8 +349,8 @@ class ApartmentScene {
     }
 
     private infoCardIntersect(close?: boolean, name?: string, mouse?: Three.Vector2) {
-
-        if (this.activeCameraView === null) return
+        //if (this.activeCameraView === null) return
+        
         if (close) {
             const cards = document.getElementsByClassName("infoCard");
             const selector = document.createElement("div");
