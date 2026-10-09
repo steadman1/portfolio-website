@@ -9,7 +9,7 @@ import { FXAAEffect, EffectPass, RenderPass } from "postprocessing";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { MeshLine, MeshLineMaterial, MeshLineRaycast } from 'three.meshline';
 
-import ApartmentGLTF from "./assets/apartment.gltf";
+import ApartmentGLTF from "./assets/models/apartment.gltf";
 
 class ApartmentScene {
     scene: Three.Scene;

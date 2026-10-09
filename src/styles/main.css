@@ -2,17 +2,17 @@
 
 @font-face {
   font-family: "akira";
-  src: url("assets/AkiraExpanded.otf");
+  src: url("../assets/fonts/AkiraExpanded.otf");
 }
 
 @font-face {
   font-family: "monument";
-  src: url("assets/MonumentExtended-Regular.otf");
+  src: url("../assets/fonts/MonumentExtended-Regular.otf");
 }
 
 @font-face {
   font-family: "menlo";
-  src: url("assets/Menlo-Regular.ttf");
+  src: url("../assets/fonts/Menlo-Regular.ttf");
 }
 
 ::-webkit-scrollbar {
@@ -168,7 +168,7 @@ body, html {
   height: 50px;
   width: 50px;
   border-radius: 100px;
-  background: whitesmoke url(./assets/profile_picture_900x900.JPG) center no-repeat;
+  background: whitesmoke url(../assets/profile/profile_picture_900x900.jpg) center no-repeat;
   background-size: contain;
   border: 4px solid white;
   box-shadow: 4px 4px 15px rgba(29, 29, 29, 0.326);
@@ -265,7 +265,7 @@ body, html {
   height: 30px;
   width: 30px;
   border-radius: 100px;
-  background: whitesmoke url(./assets/profile_picture_32x32.jpeg) center no-repeat;
+  background: whitesmoke url(../assets/profile/profile_picture_32x32.jpg) center no-repeat;
   border: 3px solid white;
   box-shadow: 1px 1px 15px rgba(29, 29, 29, 0.326);
 }
@@ -275,7 +275,7 @@ body, html {
   height: 130px;
   width: 130px;
   border-radius: 100px;
-  background: whitesmoke url(./assets/profile_picture_900x900.JPG) center no-repeat;
+  background: whitesmoke url(../assets/profile/profile_picture_900x900.jpg) center no-repeat;
   background-size: contain;
   border: 5px solid white;
   box-shadow: 4px 4px 15px rgba(29, 29, 29, 0.326);
@@ -517,7 +517,7 @@ body, html {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   border-radius: 100px;
-  background: whitesmoke url(./assets/settings_icon.png) center no-repeat;
+  background: whitesmoke url(../assets/icons/settings_icon.png) center no-repeat;
   background-size: 30px 30px;
 }
 
@@ -525,7 +525,7 @@ body, html {
   -webkit-transform: translate(-50%, 150%);
   transform: translate(-50%, 150%);
   border-radius: 100px;
-  background: whitesmoke url(./assets/profile_picture_32x32.jpeg) center no-repeat;
+  background: whitesmoke url(../assets/profile/profile_picture_32x32.jpg) center no-repeat;
   background-size: 30px 30px;
   border: 3px solid white;
   box-shadow: 1px 1px 15px rgba(29, 29, 29, 0.326);
@@ -607,7 +607,7 @@ body, html {
   width: 60px;
   border-radius: 100px;
   margin: 10px;
-  background: whitesmoke url(./assets/settings_icon.png) center no-repeat;
+  background: whitesmoke url(../assets/icons/settings_icon.png) center no-repeat;
   background-size: 30px 30px;
   box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
 }

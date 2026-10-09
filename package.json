@@ -1,7 +1,8 @@
 {
-  "name": "Spencer Steadman",
+  "name": "spencer-steadman-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Interactive 3D portfolio site by Spencer Steadman, built with Vite and Three.js.",
   "type": "module",
   "scripts": {
     "dev": "vite",
