@@ -1,1190 +1,1470 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@350&display=swap&family=Roboto+Mono&display=swap');
+/*
+ * Main stylesheet for the portfolio (index.html).
+ * The legal/support pages use legal.css instead.
+ *
+ * Sections: Tokens / Base / Header / Reveals / Hero / Work / Tour /
+ * Contact / Cursor / Explore & debug / Small screens / Reduced motion
+ */
 
-@font-face {
-  font-family: "akira";
-  src: url("../assets/fonts/AkiraExpanded.otf");
-}
+/* Inter is bundled from @fontsource-variable/inter (imported in main.ts). */
 
-@font-face {
-  font-family: "monument";
-  src: url("../assets/fonts/MonumentExtended-Regular.otf");
-}
-
-@font-face {
-  font-family: "menlo";
-  src: url("../assets/fonts/Menlo-Regular.ttf");
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  margin-right: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background-color: rgb(194, 194, 194);
-  transition: background-color 1s ease-in-out;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(173, 173, 173);
-}
-
-::-webkit-scrollbar-track {
-  background: whitesmoke;
-}
+/* ---------------------------------------------------------------- Tokens */
 
 :root {
-  --color-blue: #27476E;
-  --color-orange: #FE5F55;
-  --color-code: rgb(197, 197, 197);
-  --color-highlight-code: rgb(150, 150, 150);
-  --border-grey: rgb(214, 214, 214);
-  --background: whitesmoke;
-  --hover-seconds: 0.1s;
-  --card-float: calc(-110px - 100%);
-  --burger-seconds: 0.5s;
-  --buger-menu-seconds: 0.35s;
-  --burger-menu-height: 200px;
-  --toggle-seconds: 1s;
+  /* Text priority comes from color and weight, never a second typeface:
+     --fg for what matters, --muted for supporting text. */
+  --bg: #fff;
+  --fg: #000;
+  --muted: #7a7a7a;
+  --line: #e6e6e6;
+
+  --font: "Inter Variable", Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --regular: 400;
+  --medium: 500;
+  --bold: 600;
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --header-height: 72px;
+
+  /* One easing curve for every reveal. */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.9s;
+  --stagger: 70ms;
+
+  /* Size of the 3D view while a tour stop has text beside it. */
+  --frame-width: 56vw;
+  --frame-height: 72vh;
 }
 
-canvas {
-  position: fixed;
-  top: 0;
-  right: 0;
-  overflow: hidden;
-  transition: 0.5s filter ease-in-out;
-  filter: blur(0px) brightness(1);
+/* ------------------------------------------------------------------ Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-body, html {
-  height: 100%;
+html {
+  background: var(--bg);
+  color: var(--fg);
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  /* No sideways drift or bounce when swiping left/right on phones: nothing
+     is wider than the screen, so clip anything that might poke out, turn
+     off sideways overscroll, and only let fingers scroll up/down (and zoom). */
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
+
+body {
   margin: 0;
-  overflow: hidden;
-  background: var(--background);
+  overflow-x: clip;
+  touch-action: pan-y pinch-zoom;
+  background: var(--bg);
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: var(--regular);
+  line-height: 1.55;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.boot {
-  transition: opacity 0.2s ease-in-out;
+h1,
+h2,
+h3,
+p,
+ul,
+figure {
+  margin: 0;
+  padding: 0;
+  font-weight: inherit;
 }
 
-.point {
-  user-select: none;
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
 }
 
-.threeInFront {
-  z-index: 3;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+img,
+video {
+  display: block;
+  max-width: 100%;
 }
 
-.threeBehind {
-  z-index: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
 }
 
-.loadPercentText {
-  width: fit-content;
-  margin: 15px auto 10px auto;
-  font-family: monument;
+::selection {
+  background: var(--fg);
+  color: var(--bg);
 }
 
-.loadPercentBar {
-  height: 100%;
-  width: 0%;
-  border-radius: 100px;
-  background-color: black;
+/* Small supporting text: labels, counters, captions. */
+.label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: var(--medium);
+  line-height: 1.45;
+  letter-spacing: -0.003em;
+  font-variant-numeric: tabular-nums;
 }
 
-.loadPercentBarContainer {
-  height: 5px;
-  width: 100%;
-  border-radius: 100px;
-  background-color: rgb(196, 196, 196);
+/* Unfinished placeholder text from content.ts (starts with "TODO"). */
+.todo {
+  color: var(--muted);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
 }
 
-.loadPercentContainer {
-  position: fixed;
-  width: 65px;
-  z-index: 0;
-  top: 20px;
-  left: 40px;
-  user-select: none;
+/*
+ * Rolling links and buttons (class "roll", text wrapped by roll() in
+ * src/lib/dom.ts). For a padded button, put class "roll-host" on the
+ * button and wrap the label in <span class="roll">, so the padding isn't
+ * part of the clipped area. On hover the label slides down out of its box while a
+ * copy, drawn one line above it with text-shadow, slides down into place.
+ */
+.roll {
+  --roll-line: 1.3em;
+  display: inline-block;
+  overflow: hidden;
+  font-weight: var(--bold);
+  line-height: var(--roll-line);
+  vertical-align: top;
 }
 
-.introCardStack {
-  height: 100%;
-  width: 500px;
-  margin: auto;
-  height: fit-content;
+.roll-text {
+  display: block;
+  text-shadow: 0 calc(-1 * var(--roll-line)) currentColor;
+  transition: transform 0.55s var(--ease);
 }
 
-.introText {
-  height: fit-content;
-  font-family: menlo;
+.roll:hover .roll-text,
+.roll:focus-visible .roll-text,
+.roll-host:hover .roll-text,
+.roll-host:focus-visible .roll-text {
+  transform: translateY(var(--roll-line));
+}
+
+/* Standalone buttons (Explore the building, Back to the tour). */
+.button {
   font-size: 18px;
+  letter-spacing: -0.02em;
 }
 
-.introLineNumber {
-  margin: auto 50px auto 0;
-  color: var(--color-code);
+.button[hidden] {
+  display: none;
 }
 
-.introLineNumberFocused {
-  color: var(--color-highlight-code);
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
 }
 
-.introLineText {
-  margin: auto 0 auto 20px;
-}
-
-.intro {
-  position: absolute; 
-  top: calc(50%);
-  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-}
-
-.deadIntro {
-  transform: translateY(calc(-50% - 100px));
+/* The 3D canvas. It lives inside the tour's sticky box (tour.ts), behind
+   the stop layers, so it scrolls with the page. Fades in once the model is ready. */
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s var(--ease);
 }
 
-.activeIntro {
-  transform: translateY(-50%);
+html.is-3d-ready .stage {
   opacity: 1;
 }
 
-.inActiveIntro {
-  transform: translateY(calc(-50% + 100px));
+.page {
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.6s var(--ease);
+}
+
+/* ---------------------------------------------------------------- Header */
+
+/* White + "difference" blending reads as black on white and white over the 3D view. */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--gutter);
+  color: #fff;
+  mix-blend-mode: difference;
+  transition: opacity 0.5s var(--ease);
+}
+
+.wordmark {
+  font-size: 18px;
+  font-weight: var(--bold);
+  letter-spacing: -0.02em;
+}
+
+.site-nav {
+  display: flex;
+  gap: 28px;
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------- Reveals */
+
+/*
+ * reveal() in src/lib/dom.ts wraps content in .reveal > .reveal-inner.
+ * The inner part waits below a clipping edge and slides up when its
+ * section gets "is-in" (scrolled into view) or its tour stop is active.
+ * --i is the element's place in the sequence, for the stagger.
+ * The padding/negative margin keeps focus rings and the magnetic hover
+ * effect from being clipped.
+ */
+.reveal {
+  display: block;
+  margin: -10px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+span.reveal {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.reveal-inner {
+  display: block;
+  transform: translateY(calc(100% + 14px));
+  transition: transform var(--duration) var(--ease);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.is-in .reveal-inner {
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ Hero */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--header-height) + 6vh) var(--gutter) var(--gutter);
+}
+
+.hero-inner {
+  display: grid;
+  gap: clamp(20px, 3.5vh, 40px);
+}
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.hero-portrait {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  clip-path: circle();
+  background: #f2f2f2;
+}
+
+/* All photos are stacked; the current one fades in on top. */
+.hero-portrait-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.hero-portrait-img.is-current {
+  opacity: 1;
+}
+
+.hero-name {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.22em;
+  font-size: clamp(56px, 11vw, 176px);
+  font-weight: var(--bold);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+
+/* Each letter is pushed away from the cursor (repel() in hero.ts). */
+.hero-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Once the name has slid in, letters may move past the reveal masks. */
+.hero-name.is-settled .reveal {
+  overflow: visible;
+}
+
+.hero-body {
+  display: grid;
+  gap: 18px;
+  max-width: 44ch;
+  margin-left: 50%;
+}
+
+.hero-skills {
+  color: var(--fg);
+}
+
+/* A skill with its tools' icons on the left; kept on one line. */
+.skill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.skill-icon + .skill-icon {
+  margin-left: 1px;
+}
+
+.skill-icon:last-of-type {
+  margin-right: 3px;
+}
+
+/* Black logo that turns its brand colour when its skill is hovered. */
+.skill-icon {
+  position: relative;
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  color: var(--fg);
+  cursor: default;
+  transition: color 0.3s var(--ease), scale 0.4s var(--ease);
+}
+
+.skill-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.skill-icon path {
+  fill: currentColor;
+  transition: fill 0.3s var(--ease);
+}
+
+/* Hovering the skill (text or icon) colours its icons. */
+.skill:hover .skill-icon,
+.skill:focus-within .skill-icon {
+  color: var(--brand);
+}
+
+.skill:hover .skill-icon path,
+.skill:focus-within .skill-icon path {
+  fill: var(--c, currentColor); /* shapes with their own colour (Figma) */
+}
+
+.skill-icon:hover,
+.skill-icon:focus-visible {
+  scale: 1.15;
+  outline: none;
+}
+
+.skill-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 5;
+  padding: 3px 7px;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 11px;
+  white-space: pre;
+  opacity: 0;
+  pointer-events: none;
+  translate: 0 4px;
+  transition: opacity 0.2s, translate 0.3s var(--ease);
+}
+
+/* Hovering the skill, its text or any of its icons, shows the experience
+   with every one of its tools. */
+.skill:hover .skill-tip,
+.skill:focus-within .skill-tip {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.hero-top .label {
+  color: var(--fg);
+}
+
+.hero-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 10vh;
+}
+
+/* "Scroll" and the apartment's loading percentage, on the left. */
+.hero-foot-start {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+/* The credit note, all the way to the right, wide enough for two lines. */
+.hero-credit {
+  max-width: 600px;
+  margin: 0 0 0 auto;
+  text-align: right;
+  text-wrap: balance;
+}
+
+.hero-credit .roll {
+  --roll-line: 1.45em; /* match the label's line height */
+  color: var(--fg);
+}
+
+/* Phones: the note on top, "Scroll" underneath. */
+@media (max-width: 599px) {
+  .hero-foot {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+
+  .hero-credit {
+    margin: 0;
+    text-align: left;
+  }
+}
+
+.load-status {
+  transition: opacity 0.6s 1s;
+}
+
+html.is-3d-ready .load-status,
+html.is-3d-failed .load-status {
   opacity: 0;
 }
 
-.profilePictureIntro {
-  margin: auto 0;
-  height: 50px;
-  width: 50px;
-  border-radius: 100px;
-  background: whitesmoke url(../assets/profile/profile_picture_900x900.jpg) center no-repeat;
-  background-size: contain;
-  border: 4px solid white;
-  box-shadow: 4px 4px 15px rgba(29, 29, 29, 0.326);
+/* ------------------------------------------------------------------ Work */
+
+.work {
+  margin: 12vh 0 16vh;
 }
 
-.nextIntroButton {
-  height: 40px;
-  width: 40px;
-  user-select: none;
-  border-radius: 100px;
-  border: 4px solid var(--border-grey);
-  z-index: 1;
-  transition: opacity 0.2s ease-in;
+.work-inner {
+  padding: 0 var(--gutter);
 }
 
-.nextIntroButtonUnder {
-  position: absolute;
-  top: calc(50% + 80px);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--border-grey);
+/* Experience, then Software, one list under the other (work.ts). */
+.work-group + .work-group {
+  margin-top: clamp(40px, 6vh, 72px);
 }
 
-.nextIntroButtonOver {
-  transform: translate(1px, -8px);
-  background: whitesmoke;
-  transition: transform var(--hover-seconds) ease-in-out;
+.work-group-label {
+  padding: 0 12px 10px; /* lines up with the rows' text */
 }
 
-.nextIntroButtonOver:hover, .nextIntroButtonOver:active {
-  transform: translate(-1px, -6px);
+.work-list {
+  border-top: 1px solid var(--line);
 }
 
-.nextIntroIcon {
-  fill: var(--color-orange);
+.work-list li {
+  border-bottom: 1px solid var(--line);
 }
 
-.cursor {
-  margin: auto 0 auto 7px;
-  height: 25px;
-  width: 3px;
-  background-color: var(--color-highlight-code);
-  border-radius: 100px;
-  animation: cursorBlink 1.8s ease-in-out infinite;
-}
-
-@keyframes cursorBlink {
-  40% {opacity: 1;}
-  70% {opacity: 0;}
-}
-
-.enterInteractive {
-  width: 180px;
-  height: 60px;
-  
-  user-select: none;
-  border-radius: 15px;
-  border: 4px solid var(--border-grey);
-  z-index: 1;
-}
-
-.enterInteractiveUnder {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  background: var(--border-grey);
-  transform: translate(-50%, 160px);
-  box-shadow: 4px 6px 25px rgba(29, 29, 29, 0.25);
-
-}
-
-.enterInteractiveOver {
-  transform: translate(5px, -12px);
-  text-align: center;
-  background: whitesmoke;
-  transition: transform var(--hover-seconds) ease-in-out;
-}
-
-.enterInteractiveOver:hover, .enterInteractiveOver:active {
-  transform: translate(1px, -8px);
-}
-
-.enterInteractiveText {
+/* A thin row: title on the left, platform and year on the right. */
+.work-item {
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: akira;
-  color: var(--color-orange);
-  margin: auto;
-}
-
-.profilePictureSmall {
-  margin: auto;
-  height: 30px;
-  width: 30px;
-  border-radius: 100px;
-  background: whitesmoke url(../assets/profile/profile_picture_32x32.jpg) center no-repeat;
-  border: 3px solid white;
-  box-shadow: 1px 1px 15px rgba(29, 29, 29, 0.326);
-}
-
-.profilePictureContact {
-  margin: auto;
-  height: 130px;
-  width: 130px;
-  border-radius: 100px;
-  background: whitesmoke url(../assets/profile/profile_picture_900x900.jpg) center no-repeat;
-  background-size: contain;
-  border: 5px solid white;
-  box-shadow: 4px 4px 15px rgba(29, 29, 29, 0.326);
-}
-
-.contactBio {
-  width: calc(50% - 20px);
-  height: 50%;
-}
-
-.contactName {
-  font-family: monument;
-  font-size: 24px;
-  color: black;
-}
-
-.contactText {
-  font-family: monument;
-  font-size: 12px;
-  color: black;
-}
-
-.workBio {
-  margin-right: 20px;
-  width: max-content;
-  height: 100%;
-}
-
-.workName {
-  font-family: monument;
-  font-size: 20px;
-  color: black;
-}
-
-.workText {
-  font-family: monument;
-  font-size: 12px;
-  color: rgb(51, 51, 51);
-}
-
-.introCardRow {
+  isolation: isolate;
   display: flex;
-  margin: auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
   width: 100%;
-  height: fit-content;
+  padding: 13px 12px;
+  font-size: clamp(16px, 1.3vw, 20px);
+  font-weight: var(--medium);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  text-align: left;
+  transition: color 0.35s var(--ease);
 }
 
-.cardRow {
+/* Black fill that wipes down from the top on hover, and carries on out
+   the bottom when the pointer leaves. */
+.work-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fg);
+  scale: 1 0;
+  transform-origin: center bottom;
+  transition: scale 0.45s var(--ease);
+}
+
+.work-item:focus-visible,
+.work-item.is-active {
+  color: var(--bg);
+}
+
+.work-item:focus-visible::before,
+.work-item.is-active::before {
+  scale: 1 1;
+  transform-origin: center top;
+}
+
+/* Only with a real cursor, so a tap on a phone doesn't leave it filled. */
+@media (hover: hover) {
+  .work-item:hover {
+    color: var(--bg);
+  }
+
+  .work-item:hover::before {
+    scale: 1 1;
+    transform-origin: center top;
+  }
+
+  .work-item:hover .work-meta {
+    color: rgba(255, 255, 255, 0.65);
+  }
+}
+
+.work-meta {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: var(--regular);
+  letter-spacing: -0.006em;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.35s var(--ease);
+}
+
+.work-item:focus-visible .work-meta,
+.work-item.is-active .work-meta {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.work-year {
+  min-width: 3.2em;
+  text-align: right;
+}
+
+/* Phones: same layout, a little tighter. Long titles wrap; the platform
+   and year stay on the right. */
+@media (max-width: 599px) {
+  .work-item {
+    gap: 16px;
+    padding: 12px 10px;
+    font-size: 16px;
+  }
+
+  .work-title {
+    min-width: 0;
+  }
+
+  .work-meta {
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .work-group-label {
+    padding-inline: 10px;
+  }
+}
+
+/* Black card that follows the cursor over an item: its image or video,
+   with the description underneath (work.ts). */
+.work-preview {
+  --pad: 8px;
+  --media: 190px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  /* --widen (work.ts) makes landscape media wider. */
+  width: calc(var(--media) * var(--widen, 1) + 2 * var(--pad));
+  padding: var(--pad);
+  background: var(--fg); /* black, with white text, like a filled row */
+  color: var(--bg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  pointer-events: none;
+  scale: 0.92;
+  transform-origin: left top;
+  transition: opacity 0.3s, scale 0.5s var(--ease);
+}
+
+.work-preview.is-visible {
+  opacity: 1;
+  scale: 1;
+}
+
+/* Items with a large `preview` image (content.ts). */
+.work-preview.is-large {
+  --media: min(210px, 17vw);
+}
+
+/* Items with no image or video: just the description. */
+.work-preview.is-text {
+  --media: 240px;
+}
+
+.work-preview.is-text .work-preview-frame {
+  display: none;
+}
+
+.work-preview-frame {
+  overflow: hidden;
+}
+
+.work-preview-media {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+
+.work-preview.is-large .work-preview-media {
+  max-height: 64vh;
+  object-fit: contain;
+}
+
+.work-preview-media.is-current {
+  display: block;
+}
+
+.work-preview-text {
+  overflow: hidden;
+  padding: 10px 4px 4px;
+  font-size: 13px;
+  font-weight: var(--medium);
+  line-height: 1.4;
+  letter-spacing: -0.006em;
+}
+
+.work-preview.is-text .work-preview-text {
+  padding-top: 4px;
+}
+
+.work-preview-text-inner {
+  display: block;
+}
+
+/* Touch screens: the card opens just below the tapped row, or above it
+   (work.ts), bigger, and grows out from the row. */
+.work-preview.is-centered,
+.work-preview.is-centered.is-large {
+  --media: min(260px, 100vw - 64px);
+  max-width: calc(100vw - 32px);
+  transform-origin: center top;
+}
+
+.work-preview.is-centered.is-above {
+  transform-origin: center bottom;
+}
+
+.work-preview.is-centered.is-text {
+  --media: min(300px, 100vw - 64px);
+}
+
+.work-preview.is-centered.is-visible {
+  pointer-events: auto;
+}
+
+.work-preview.is-centered .work-preview-media {
+  max-height: 45svh;
+  object-fit: contain;
+}
+
+/* Close (left) and Open (right, for items with a link) under the
+   description (touch screens). */
+.work-preview-actions {
   display: flex;
-  margin: auto;
-  position: static;
-  width: 100%;
-  height: fit-content;
+  justify-content: space-between;
+  margin: 6px 4px 2px;
 }
 
-.cardUndecidedRow {
-  display: flex;
-  margin: auto;
-  position: static;
-  width: 100%;
-  height: fit-content;
+.work-preview-close,
+.work-preview-link {
+  padding: 4px 0;
+  font-size: 13px;
+  font-weight: var(--medium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.cardStack {
-  width: 100%;
-  margin: auto;
-  height: fit-content;
+.work-preview-link {
+  display: none;
 }
 
-.videoBox {
-  margin: 10px 20px 10px;
-  border-radius: 10px;
-  box-shadow: 3px 4px 12px rgba(29, 29, 29, 0.326);
-}
-
-.scrollable {
-  width: calc(100% - 5px);
-  height: 100%;
-  padding-top: 10px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.sideScrollable {
-  margin: 0 20px;
-  padding-top: 10px;
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
-
-.sideScrollBox {
+.work-preview.has-link .work-preview-link {
   display: inline-block;
 }
 
-.optionRow {
-  margin-top: 0px;
+/* New description text swipes up into place. */
+.work-preview-text.is-changing .work-preview-text-inner {
+  animation: swipe-up 0.32s var(--ease);
 }
 
-.logoWrapper {
+@keyframes swipe-up {
+  from {
+    transform: translateY(105%);
+    clip-path: inset(0 0 105% 0); /* keeps it hidden below its final spot */
+  }
+  to {
+    transform: none;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ Tour */
+
+/*
+ * The tour section is very tall (height set by tour.ts); .tour-sticky stays
+ * on screen while it scrolls past. Each .stop is a full-screen layer with a
+ * .stop-frame slot for the 3D view and a .stop-panel of text. Only the
+ * active stop's panel is visible. Change the grid here to move things around;
+ * the 3D view follows the .stop-frame boxes automatically.
+ */
+.tour {
+  position: relative;
+}
+
+.tour-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.stop {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-items: center;
+  column-gap: 5vw;
+  /* The bottom padding leaves room for the Back / Continue buttons. */
+  padding: var(--header-height) var(--gutter) calc(var(--gutter) + 44px);
+  pointer-events: none;
+}
+
+.stop[data-frame="right"] {
+  grid-template-columns: minmax(0, 1fr) var(--frame-width);
+  grid-template-areas: "panel frame";
+}
+
+.stop[data-frame="left"] {
+  grid-template-columns: var(--frame-width) minmax(0, 1fr);
+  grid-template-areas: "frame panel";
+}
+
+.stop-frame {
+  position: relative;
+  grid-area: frame;
+  height: var(--frame-height);
+}
+
+.stop-panel {
+  /* A column that fills the height beside the 3D view; the photo shrinks
+     (below) so the panel never runs off screen. */
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+  min-height: 0;
+  grid-area: panel;
+  gap: 18px;
+  max-width: 400px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+
+/* Full-screen stops: the 3D view fills the screen, text is a caption in the corner. */
+.stop[data-frame="full"] {
+  display: block;
+}
+
+.stop[data-frame="full"] .stop-frame {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+
+/* A soft white fade at the bottom, so the building's foundation dissolves
+   into the page instead of ending in a hard line. */
+.stop[data-frame="full"] .stop-frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 32%;
+  background: linear-gradient(rgba(255, 255, 255, 0), var(--bg) 85%);
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+
+.stop.is-active[data-frame="full"] .stop-frame::after {
+  opacity: 1;
+}
+
+.stop[data-frame="full"] .stop-panel {
+  position: absolute;
+  bottom: calc(var(--gutter) + 48px); /* above the Return / Continue buttons */
+  left: var(--gutter);
+  max-width: 36ch;
+}
+
+.stop.is-active .stop-panel {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: none;
+}
+
+/* Text slides up when the stop arrives and resets after it fades out. */
+.stop .reveal-inner {
+  transition: transform 0s linear 0.35s;
+}
+
+.stop.is-active .reveal-inner {
+  transform: none;
+  transition: transform var(--duration) var(--ease) calc(80ms + var(--i, 0) * var(--stagger));
+}
+
+.stop-title {
+  font-size: clamp(34px, 3.6vw, 56px);
+  font-weight: var(--bold);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.stop-text {
+  max-width: 38ch;
+}
+
+/* "Return to …" on the bottom left and "Continue to …" on the bottom right
+   of the screen, shown with the active stop. */
+.stop-steps {
+  position: absolute;
+  right: var(--gutter);
+  bottom: calc(var(--gutter) - 6px);
+  left: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  font-size: 16px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.stop-step--next {
+  margin-left: auto; /* stays on the right even without "Return" */
+}
+
+.stop.is-active .stop-steps {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s ease 0.2s;
+}
+
+/* Photos/videos beside a stop (media.ts). Never taller than the space left
+   in the panel: the photo shrinks (staying square) to fit. */
+.stop-panel > .reveal {
+  flex: none;
+}
+
+.stop-panel > .reveal:has(.media) {
+  display: flex;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.stop-panel > .reveal:has(.media) > .reveal-inner {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.stop-panel .media {
+  flex: 0 1 auto;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+/* When space is short the photo gets shorter (cropped), never off screen. */
+.stop-panel .media-stage {
+  max-height: 100%;
+}
+
+/* Photos/videos beside a stop (media.ts). */
+.media {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 300px);
+  margin-top: 6px;
+}
+
+.media--portrait {
+  width: min(100%, 250px);
+}
+
+.media-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.media--portrait .media-stage {
+  aspect-ratio: 3 / 4;
+}
+
+.media-item {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  margin: auto;
-  border-radius: 100px;
+  /* Scaled to fit (never cropped), centred in the frame. */
+  object-fit: contain;
+  object-position: center;
+  opacity: 0;
+  scale: 1.06;
+  transition: opacity 0.6s var(--ease), scale 1.4s var(--ease);
 }
 
-.logoIcon {
-  width: 65px;
-  height: 65px;
-  margin: auto;
-  user-select: none;
-  border-radius: 100px;
-  border: 4px solid var(--border-grey);
+.media-item.is-current {
+  opacity: 1;
+  scale: 1;
 }
 
-.softwareIcon {
-  width: 52px; 
-  height: 52px;
+.media-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
 }
 
-.logoIconUnder {
-  background: var(--border-grey);
+.media-caption {
+  flex: 1;
 }
 
-.logoIconOver {
-  transform: translate(2px, -9px);
-  background: whitesmoke;
-  transition: transform var(--hover-seconds) ease-in-out;
+.media-next {
+  color: var(--fg);
 }
 
-.logoIconOver:hover, .logoIconOver:active {
-  transform: translate(-1.5px, -6px);
-}
-
-.logo {
-  margin: auto;
-  width: 40px;
-  height: 40px;
-  filter: drop-shadow(2px 3px 2.5px rgba(29, 29, 29, 0.2));
-}
-
-.popup {
+/* Side navigation: one tick per stop. */
+.tour-nav {
   position: absolute;
-  width: 400px;
-  height: calc(85% - 50px);
-  background: whitesmoke;
-  border-radius: 25px 25px 0 0;
-  bottom: 0px;
-  left: 50%;
-  transform: translateX(-50%, 0%);
-  box-shadow: 0px -8px 30px rgba(29, 29, 29, 0.196);
+  top: 50%;
+  right: max(4px, calc(var(--gutter) / 2 - 12px));
+  z-index: 2;
+  display: grid;
+  color: var(--fg);
+  transform: translateY(-50%);
 }
 
-.popupTitle {
-  font-family: akira;
-  font-size: 35px;
-  max-width: 280px;
-  margin: 15px 0 0 22px;
-  float: left;
-  color: black;
-  text-shadow: 4px 4px 15px rgba(29, 29, 29, 0.144);
-}
-
-.popupSubTitle {
-  font-size: 22px;
-}
-
-.popupOptionsOpen {
-  animation: popupOptionsOpen 0.3s ease-out 1;
-  transform: translate(-50%, 0%)
-}
-
-.popupOptionsClosed {
-  animation: popupOptionsClosed 0.45s ease-in-out 1;
-  transform: translate(-50%, 100%)
-}
-
-.popupContactOpen {
-  animation: popupContactOpen 0.3s ease-out 1;
-  transform: translate(-50%, 0%)
-}
-
-.popupContactClosed {
-  animation: popupContactClosed 0.45s ease-in-out 1;
-  transform: translate(-50%, 100%)
-}
-
-.threePopup {
-  pointer-events: none;
-  filter: blur(3px) brightness(0.8);
-}
-
-.header {
-  height: 120px;
-  padding: 0 80px;
+.tick {
   position: relative;
-  display: flex;
-}
-
-.headerContact {
-  width: 150px;
-  height: 65px;
-  margin: auto 0 auto 20;
-  border-radius: 20px;
-  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
-  display: flex;
-  vertical-align: middle;
-  backdrop-filter: blur(5px);
-  background: whitesmoke;
-}
-
-.headerSubTitle {
-  margin: auto auto auto 0;
-  font-family: akira;
-  font-size: 20px;
-  color: var(--color-orange);
-  user-select: none;
-}
-
-.headerTitle {
   display: flex;
   align-items: center;
-  width: fit-content;
-  font-family: akira;
-  color: whitesmoke;
-  text-shadow: 4px 8px 15px rgba(29, 29, 29, 0.235);
-  user-select: none;
+  justify-content: flex-end;
+  width: 24px;
+  height: 22px;
 }
 
-.headerDropDownIcon {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 30px;
+.tick::before {
+  content: "";
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: width 0.5s var(--ease), opacity 0.3s;
 }
 
-.headerDropDownOptionsIcon {
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  border-radius: 100px;
-  background: whitesmoke url(../assets/icons/settings_icon.png) center no-repeat;
-  background-size: 30px 30px;
+.tick.is-current::before {
+  width: 22px;
+  opacity: 1;
 }
 
-.headerDropDownContactIcon {
-  -webkit-transform: translate(-50%, 150%);
-  transform: translate(-50%, 150%);
-  border-radius: 100px;
-  background: whitesmoke url(../assets/profile/profile_picture_32x32.jpg) center no-repeat;
-  background-size: 30px 30px;
-  border: 3px solid white;
-  box-shadow: 1px 1px 15px rgba(29, 29, 29, 0.326);
-}
-
-.headerDropDownContactIconOpen {
-  -webkit-animation: headerDropDownContactIconOpen var(--buger-menu-seconds) ease-out 1;
-  animation: headerDropDownContactIconOpen var(--buger-menu-seconds) ease-out 1;
-  -webkit-transform: translate(-50%, 50%);
-  transform: translate(-50%, 50%);
-}
-
-.headerDropDownContactIconClosed {
-  -webkit-animation: headerDropDownContactIconClosed var(--buger-menu-seconds) ease-out 1;
-  animation: headerDropDownContactIconClosed var(--buger-menu-seconds) ease-out 1;
-  -webkit-transform: translate(-50%, -125%);
-  transform: translate(-50%, -125%);
-}
-
-.headerDropDown {
+.tick-label {
   position: absolute;
-  transform: translateY(-100%);
-  height: 65px;
-  width: 65px;
-  border-radius: 100px;
-  background: whitesmoke;
-  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.122);
-} 
+  right: 34px;
+  color: inherit;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-.headerDropDownMenu {
-  height: 65px;
-  width: 65px;
-  margin: 15px 0 auto auto;
-  border-radius: 100px;
+.tick.is-current .tick-label,
+.tick:hover .tick-label,
+.tick:focus-visible .tick-label {
+  opacity: 1;
+}
+
+.tour-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+html.is-3d-ready .tour-loader,
+html.is-3d-failed .tour-loader {
   display: none;
-  background-color: rgb(240, 240, 240);
-  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
 }
 
-.headerDropDownMenuOpen {
-  animation: headerDropDownMenuOpen var(--buger-menu-seconds) ease-out 1;
-  height: var(--burger-menu-height);
+.stop-fallback {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.headerDropDownMenuClosed {
-  animation: headerDropDownMenuClosed var(--buger-menu-seconds) ease-out 1;
-  height: 65px;
+/* No WebGL: the tour becomes ordinary sections with a photo each. */
+.tour--static .stage {
+  display: none;
 }
 
-.headerAnimate {
-  transition: transform .4s ease;
+.tour--static .tour-sticky {
+  position: static;
+  height: auto;
+  overflow: visible;
 }
 
-.headerAnimateNoHover {
-  transform: rotate3d(0.5, -0.9, 0, 19deg) rotate(1deg);
+.tour--static .stop {
+  position: relative;
+  inset: auto;
+  padding-block: 8vh;
 }
 
-.headerAnimateHover {
-  transform: rotate3d(0,0,0,0deg) rotate(-0.2deg);
+.tour--static .stop-frame {
+  height: auto;
+  aspect-ratio: 1;
+  max-height: 72vh;
 }
 
-.options {
-  margin: auto 0px auto auto;
-  display: flex;
-  vertical-align: middle;
+.tour--static .stop-fallback {
+  display: block;
 }
 
-.optionsText {
-  margin: auto 0 auto 0;
-  font-family: akira;
-  user-select: none;
-  font-size: 22px;
-  color: whitesmoke;
-  text-shadow: 4px 8px 15px rgba(29, 29, 29, 0.235);
+.tour--static .stop[data-frame="full"] .stop-frame,
+.tour--static .stop:not(:has(.stop-panel)),
+.tour--static .tour-nav {
+  display: none;
 }
 
-.optionsIcon {
-  height: 60px;
-  width: 60px;
-  border-radius: 100px;
-  margin: 10px;
-  background: whitesmoke url(../assets/icons/settings_icon.png) center no-repeat;
-  background-size: 30px 30px;
-  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.167);
+.tour--static .stop[data-frame="full"] .stop-panel {
+  position: static;
 }
 
-.selector {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 100px;
-  background: whitesmoke;
-  box-shadow: 4px 8px 15px rgba(29, 29, 29, 0.2);
-  z-index: 2;
-}
-
-.returnMainView {
-  width: 280px;
-  height: 90px;
-  
-  user-select: none;
-  border-radius: 15px;
-  border: 4px solid var(--border-grey);
-}
-
-.returnMainViewUnder {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  background: var(--border-grey);
-  transform: translate(-50%, 160px);
-  box-shadow: 4px 6px 25px rgba(29, 29, 29, 0.341);
-}
-
-.returnMainViewOver {
-  transform: translate(5px, -12px);
-  text-align: center;
-  background: whitesmoke;
-  transition: transform var(--hover-seconds) ease-in-out;
-}
-
-.returnMainViewOver:hover, .returnMainViewOver:active {
-  transform: translate(1px, -8px);
-}
-
-.returnMainViewText {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: akira;
-  color: var(--color-orange);
-  margin: auto;
-}
-
-.infoCard {
+/* Enlarged tour photo (lightbox.ts): a white panel over a darkened page. */
+.lightbox {
   position: fixed;
-  top: 20px;
-  height: calc(100% - 185px);
-  width: calc(100% - 60px);
-  max-width: 750px;
-  background-color: whitesmoke;
-  border-radius: 25px;
-  transform: translate(var(--card-float));
-  box-shadow: 6px 10px 35px rgba(29, 29, 29, 0.204);
+  inset: 0;
+  z-index: 900; /* under the custom cursor */
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  background: rgba(0, 0, 0, 0.72);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.infoCardTitle {
-  font-family: akira;
-  font-size: 28px;
-  width: 250px;
-  margin: 15px 0 0 22px;
-  float: left;
+.lightbox.is-open {
+  opacity: 1;
 }
 
-.imageScroller {
+html.has-lightbox {
+  overflow: hidden;
+}
+
+.lightbox-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 14px;
+  max-width: min(1000px, 100%);
+  max-height: 100%;
+  padding: 16px;
+  background: var(--bg);
+  scale: 0.96;
+  transition: scale 0.45s var(--ease);
+}
+
+.lightbox.is-open .lightbox-panel {
+  scale: 1;
+}
+
+.lightbox-stage {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.lightbox-media {
+  max-width: 100%;
+  max-height: calc(100svh - 2 * var(--gutter) - 90px); /* fits with the bar below */
+  object-fit: contain;
+}
+
+.lightbox-bar {
   display: flex;
-  width: 100%;
-  margin-top: 15px;
-  float: left;
-  justify-content: center;
+  align-items: baseline;
+  gap: 16px;
 }
 
-.imageScrollerNavigationBox {
+.lightbox-caption {
+  flex: 1;
+}
+
+.lightbox-next,
+.lightbox-close {
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------- Contact */
+
+/* Fills the screen: the email in the middle, the footer at the bottom. */
+.contact {
   display: flex;
-  width: 100%;
-  float: left;
-  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: var(--header-height) var(--gutter) 0;
 }
 
-.imageScrollerNavigation {
+.contact-inner {
+  display: grid;
+  flex: 1;
+  align-content: center;
+  gap: 28px;
+  padding: 6vh 0;
+}
+
+.contact-email {
+  justify-self: start;
+  --roll-line: 1.15em;
+  font-size: clamp(36px, 7vw, 112px);
+  font-weight: var(--bold);
+  letter-spacing: -0.05em;
+}
+
+.site-footer {
   display: flex;
-  max-width: 300px;
-  width: calc(100% - 50px);
-  margin: 15px auto 0 auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding: 22px 0 28px;
+  border-top: 1px solid var(--line);
 }
 
-.imageScrollerNavigateButton {
-  margin: auto;
+.noscript {
+  padding: 120px var(--gutter);
 }
 
-.scrollerImage {
-  max-width: 300px;
-  width: calc(100% - 70px);
-  margin: auto;
-  border-radius: 15px;
-  box-shadow: 4px 8px 24px rgba(29, 29, 29, 0.296);
-  transition: transform 0.75s cubic-bezier(0.075, 1.45, 0.165, 1);
+/* ---------------------------------------------------------------- Cursor */
+
+/* Images and sizes are set in src/ui/cursor.ts. */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
 }
 
-.scrollerImageActive {
-  transition: transform 0.3s cubic-bezier(0.075, 1, 0.265, 1.25);
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  /* Soft shadow straight down, like the macOS cursor. It's on this wrapper,
+     not the images, so it stays below the cursor when the cursor tilts. */
+  filter: drop-shadow(0 1.5px 3.5px rgba(0, 0, 0, 0.3));
+  transition: opacity 0.2s;
+  will-change: transform;
 }
 
-.infoCardDescriptionBox {
-  display: flex;
-  width: 100%;
-  float: left;
-  justify-content: center;
+.cursor.is-visible {
+  opacity: 1;
 }
 
-.infoCardDescription {
-  max-width: 300px;
-  width: calc(100% - 70px);
-}
-
-.burger {
+.cursor-img {
   position: absolute;
-  top: 33px;
+  max-width: none;
+  opacity: 0;
+  rotate: calc(var(--angle, 0deg) + var(--tilt, 0deg));
+  scale: 0.7;
+  user-select: none;
+  transition: opacity 0.15s, scale 0.3s var(--ease);
+}
+
+/* The arrow normally, the hand over anything clickable. */
+.cursor:not(.is-hand) .cursor-pointer,
+.cursor.is-hand .cursor-hand {
+  opacity: 1;
+  scale: 1;
+}
+
+/* A little squeeze while the mouse button is down. */
+.cursor.is-pressed:not(.is-hand) .cursor-pointer,
+.cursor.is-pressed.is-hand .cursor-hand {
+  scale: 0.85;
+}
+
+/* ------------------------------------------------------- Explore & debug */
+
+html.is-exploring {
+  overflow: hidden;
+}
+
+/* Explore mode hides everything except the 3D view. */
+.page > *,
+.stop,
+.tour-nav,
+.site-header {
+  transition: opacity 0.6s var(--ease);
+}
+
+html.is-exploring .page > :not(.tour),
+html.is-exploring .stop,
+html.is-exploring .tour-nav,
+html.is-exploring .site-header {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.is-exploring .stage,
+html.is-debug-camera .stage {
+  pointer-events: auto;
+}
+
+html.is-debug-camera .page {
+  pointer-events: none;
+}
+
+.explore-exit {
+  /* A white, square-cornered button, so it reads over the 3D view. */
+  padding: 12px 22px;
+  background: var(--bg);
+  position: fixed;
+  bottom: calc(var(--gutter) + 8px);
   left: 50%;
-  height: 6px;
-  width: 30px;
-  border-radius: 100px;
-  background-color: var(--color-orange);
+  z-index: 20;
+  transform: translateX(-50%);
+  animation: appear 0.8s var(--ease) 0.3s both;
 }
 
-.burgerTop {
-  transform: translate(-50%, -240%);
+.explore-hint {
+  /* White + "difference": readable over whatever is behind it. */
+  color: #fff;
+  font-weight: var(--bold);
+  mix-blend-mode: difference;
+  position: fixed;
+  top: calc(var(--gutter) + 4px);
+  left: 50%;
+  z-index: 20;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  animation: appear 0.8s var(--ease) 0.5s both;
 }
 
-.burgerMiddle {
-  transform: translate(-50%, -50%);
+.debug {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 30;
+  max-width: min(560px, calc(100vw - 24px));
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font: 12px/1.45 var(--font);
+  font-variant-numeric: tabular-nums;
 }
 
-.burgerBottom {
-  transform: translate(-50%, 140%);
+.debug-readout {
+  margin: 6px 0 8px;
+  white-space: pre-wrap;
+  font: inherit;
 }
 
-.burgerClockTop {
-  animation: burgerClockTop var(--burger-seconds) ease-out 1;
+.debug-copy {
+  padding: 4px 8px;
+  border: 1px solid #fff;
 }
 
-.burgerClockMiddle {
-  animation: burgerClockMiddle var(--burger-seconds) ease-out 1;
-}
+/* --------------------------------------------------------- Small screens */
 
-.burgerClockWise {
-  animation: burgerClockWise var(--burger-seconds) ease-out 1;
-}
-
-.burgerClockTopCross {
-  animation: burgerClockTopCross var(--burger-seconds) ease-out 1;
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.burgerClockMiddleCross {
-  animation: burgerClockMiddleCross var(--burger-seconds) ease-out 1;
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.burgerClockWiseCross {
-  animation: burgerClockWiseCross var(--burger-seconds) ease-out 1;
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-@media only screen and (max-width: 700px) {
-  .headerTitle {
-    vertical-align: middle;
-    margin: 0;
-    margin-top: 0;
-    font-size: 32px;
+/* Below 900px there's no room beside the 3D view: it sits on top, text below. */
+@media (max-width: 899px) {
+  :root {
+    --header-height: 56px;
   }
-  .header {
-    height: 90px;
-    padding: 0 10px;
+
+  body {
+    font-size: 16px;
   }
-  .headerDropDownMenu {
-    display: block;
-  }
-  .headerStacked {
-    display: block;
-  }
-  .headerInline {
-    display: none;
-  }
-  .profilePictureIntro{
-    height: 40px;
-    width: 40px;
-  }
-  .introText {
+
+  .site-nav {
+    gap: 18px;
     font-size: 14px;
   }
-}
 
-@media only screen and (min-width: 600px) {
-  .popup {
-    width: 550px;
+  .hero-body {
+    margin-left: 0;
   }
-}
 
-@media only screen and (max-width: 600px) {
-  .cardUndecidedRow {
-    display: block;
-    margin: auto;
-    width: 100%;
-    height: fit-content;
+  .stop[data-frame="left"],
+  .stop[data-frame="right"] {
+    grid-template-rows: 46svh minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "frame" "panel";
+    align-items: start;
+    row-gap: 20px;
   }
-  .workName {
+
+  .stop[data-frame="left"] .stop-frame,
+  .stop[data-frame="right"] .stop-frame {
+    height: 100%;
+  }
+
+  /* Text on the left, a small photo on the right. */
+  .stop:not([data-frame="full"]) .stop-panel {
+    display: grid;
+    align-self: start;
+    grid-template-columns: minmax(0, 1fr) 104px;
+    align-content: start;
+    column-gap: 16px;
+    row-gap: 10px;
+    max-width: none;
+  }
+
+  .stop:not([data-frame="full"]) .stop-panel > .reveal {
+    grid-column: 1;
+  }
+
+  .stop:not([data-frame="full"]) .stop-panel > .reveal:has(.media) {
+    grid-row: 1 / span 4;
+    grid-column: 2;
+  }
+
+  .stop-title {
+    font-size: 30px;
+  }
+
+  .stop-text {
     font-size: 15px;
   }
-  .workText {
-    font-size: 11px;
-  }
-  .closeIcon {
-    height: 35px;
-    width: 35px;
-  }
-  .cross {
-    height: 22px;
-    width: 5px;
-  }
-}
 
-@media only screen and (max-width: 480px) {
-  .cursor {
-    margin: auto 0 auto 4px;
-    height: 16px;
-    width: 2px;
-  }
-  .infoCard {
-    height: calc(100% - 40px);
-  }
-  .infoCardTitle {
-    width: 130px;
-    font-size: 22px;
-  }
-  .introText {
-    font-size: 12px;
-  }
-  .introLineNumber {
-    margin: auto 20px auto 0;
-  }
-  .introLineText {
-    margin: auto 0 auto 10px;
-  }
-  .introCardStack{
-    width: 340px;
-  }
-}
-
-@media only screen and (max-width: 420px) {
-  .header {
-    height: 70px;
-    padding: 0 10px;
-  }
-  .headerTitle {
-    vertical-align: middle;
-    margin: 0;
-    margin-top: 0;
-    font-size: 24px;
-  }
-  .headerDropDownMenuOpen {
-    animation: headerDropDownMenuOpenSmall var(--buger-menu-seconds) ease-out 1;
-    height: var(--burger-menu-height);
-  }
-  .headerDropDownMenuClosed {
-    animation: headerDropDownMenuClosedSmall var(--buger-menu-seconds) ease-out 1;
-    height: 55px;
-  }
-  .headerDropDownMenu {
-    width: 55px;
-    margin-top: 8px;
-  }
-  .headerDropDown {
-    transform: translateY(calc(-100% - 10px));
-    width: 55px;
-    height: 55px;
-  }
-  .burger {
-    top: 28px;
-    height: 5px;
-    width: 25px;
-  }
-  .popup {
+  .media,
+  .media--portrait {
     width: 100%;
-  }
-  .softwareIcon {
-    width: 42px;
-    height: 42px;
-  }
-  .softwareUsedLogo {
-    width: 34px;
-    height: 34px;
-  }
-} 
-
-@media only screen and (max-width: 370px) {
-  .contactName {
-    font-size: 18px;
+    margin-top: 0;
   }
 
-  .contactBio {
-    font-size: 10px;
+  /* Keep the photo within the space under the 3D view. */
+  .stop-panel .media-stage {
+    max-height: 30svh;
   }
 
-  .introText {
-    font-size: 10px;
+  .media-caption {
+    display: none;
   }
-  .introLineNumber {
-    margin: auto 20px auto 0;
+
+  .tick-label {
+    display: none;
   }
-  .introLineText {
-    margin: auto 0 auto 10px;
-  }
-  .introCardStack{
-    width: 280px;
+
+  .tour--static .stop {
+    grid-template-rows: auto auto;
   }
 }
 
-@media only screen and (max-width: 330px) {
-  .headerTitle {
-    font-size: 18;
+/* Tablets (iPad portrait): stacked like phones, but with room for bigger photos. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .stop:not([data-frame="full"]) .stop-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 42%);
+    column-gap: 28px;
   }
-  .returnMainView {
-    height: 80px;
-    width: 230px;
-  }
-}
 
-
-.closeIcon {
-  height: 40px;
-  width: 40px;
-  user-select: none;
-  border-radius: 100px;
-  border: 4px solid var(--border-grey);
-}
-
-.closeIconUnder {
-  margin: 20px 20px 20px 0;
-  float: right;
-  background: var(--border-grey);
-}
-
-.closeIconOver {
-  transform: translate(1px, -8px);
-  background: whitesmoke;
-  transition: transform var(--hover-seconds) ease-in-out;
-}
-
-.closeIconOver:hover, .closeIconOver:active {
-  transform: translate(-1px, -6px);
-}
-
-.cross {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: 25px;
-  width: 6px;
-  border-radius: 100px;
-  background: var(--color-orange);
-}
-
-.crossClockWise {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.crossCounterClockWise {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.optionText {
-  width: 30%;
-  margin: auto auto auto 30px;
-  font-family: monument;
-  font-size: 20px;
-  color: black;
-}
-
-.toggle {
-  height: 40px;
-  width: 40px;
-  user-select: none;
-  border-radius: 100px;
-  border: 4px solid var(--border-grey);
-}
-
-.toggleUnder {
-  display: inline;
-  width: fit-content;
-  margin: 20px 20px 20px 0;
-  float: right;
-  background: var(--border-grey);
-}
-
-.toggleText {
-  position: relative;
-  float: left;
-  top: 50%;
-  transform: translateY(-50%);
-  margin: auto 12px;
-  font-family: monument;
-  font-size: 14px;
-  color: white;
-  text-shadow: 3px 4px 12px rgba(29, 29, 29, 0.296);
-}
-
-.toggleOver {
-  margin: auto 0 auto auto;
-  background-color: whitesmoke;
-  transition: var(--hover-seconds) ease-in-out;
-}
-
-.toggleOverOpen:hover, .toggleOverOpen:active {
-  transform: translate(4px, -4px);
-}
-
-.toggleOverClosed:hover, .toggleOverClosed:active {
-  transform: translate(-3px, -4px);
-}
-
-.toggleOverOpen {
-  transform: translate(7px, -7px);
-  float: right;
-  background-color: rgb(182, 244, 180);
-}
-
-.toggleOverClosed {
-  transform: translate(6px, -7px);
-  float: left;
-  transform: translate(0px, -7px);
-}
-
-@keyframes floatUpHigh {
-  from {transform: translate(-50%, 160px)}
-  to {transform: translate(-50%, -100%)}
-}
-
-@keyframes floatUp {
-  from {transform: translate(-50%, 160px)}
-  to {transform: translate(-50%, 0px)}
-}
-
-@keyframes floatDown {
-  from {transform: translate(-50%, 0px)}
-  to {transform: translate(-50%, 160px)}
-}
-
-@keyframes floatRight {
-  from {transform: translateX(var(--card-float))}
-  to {transform: translateX(30px)}
-}
-
-@keyframes floatLeft {
-  from {transform: translateX(30px)}
-  to {transform: translateX(var(--card-float))}
-}
-
-@keyframes expand {
-  0% {transform: scale(0%)}
-  55% {transform: scale(115%)}
-  100% {transform: scale(100%)}
-}
-
-@keyframes deflate {
-  from {transform: scale(100%)}
-  to {transform: scale(0%)}
-}
-
-@keyframes burgerClockTop {
-  0% {transform: translate(-50%, -50%) rotate(45deg);}
-  45% {transform: translate(-50%, 140%);}
-  85% {transform: translate(-50%, -310%);}
-  100% {transform: translate(-50%, -240%);}
-}
-
-@keyframes burgerClockMiddle {
-  0% {transform: translate(-50%, -50%) rotate(45deg);}
-  45% {transform: translate(-50%, 140%);}
-  85% {transform: translate(-50%, -75%);}
-  100% {transform: translate(-50%, -50%);}
-}
-
-@keyframes burgerClockWise {
-  0% {transform: translate(-50%, -50%) rotate(-45deg);}
-  45% {transform: translate(-50%, 140%);}
-  85% {transform: translate(-50%, 140%);}
-  100% {transform: translate(-50%, 140%);}
-}
-
-@keyframes burgerClockTopCross {
-  0% {transform: translate(-50%, -240%);}
-  45% {transform: translate(-50%, 140%);}
-  85% {transform: translate(-50%, -50%) rotate(52deg);}
-  100% {transform: translate(-50%, -50%) rotate(45deg);}
-}
-
-@keyframes burgerClockMiddleCross {
-  0% {transform: translate(-50%, -50%);}
-  45% {transform: translate(-50%, 140%);}
-  85% {transform: translate(-50%, -50%) rotate(52deg);}
-  100% {transform: translate(-50%, -50%) rotate(45deg);}
-}
-
-@keyframes burgerClockWiseCross {
-  0% {transform: translate(-50%, 140%);}
-  45% {transform: translate(-50%, 140%);}
-  85% {transform: translate(-50%, -50%) rotate(-52deg);}
-  100% {transform: translate(-50%, -50%) rotate(-45deg);}
-}
-
-@keyframes headerDropDownMenuOpen {
-  0% {height: 65px;}
-  100% {height: var(--burger-menu-height);}
-}
-
-@keyframes headerDropDownMenuClosed {
-  0% {height: var(--burger-menu-height);}
-  100% {height: 65px;}
-}
-
-@keyframes headerDropDownMenuOpenSmall {
-  0% {height: 55px;}
-  100% {height: var(--burger-menu-height);}
-}
-
-@keyframes headerDropDownMenuClosedSmall {
-  0% {height: var(--burger-menu-height);}
-  100% {height: 55px;}
-}
-
-@keyframes headerDropDownContactIconClosed {
-  from {
-    -webkit-transform: translate(-50%, 50%);
-    transform: translate(-50%, 50%);
-  }
-  to {
-    -webkit-transform: translate(-50%, -125%);
-    transform: translate(-50%, -125%);
+  .media-caption {
+    display: block;
   }
 }
 
-@keyframes headerDropDownContactIconOpen {
-  from {
-    -webkit-transform: translate(-50%, -125%);
-    transform: translate(-50%, -125%);
+/* Tablets (iPad landscape): bigger photos beside the 3D view. */
+@media (min-width: 900px) and (max-width: 1279px) {
+  :root {
+    --frame-width: 50vw;
   }
-  to {
-    -webkit-transform: translate(-50%, 50%);
-    transform: translate(-50%, 50%);
+
+  .stop-panel {
+    max-width: 440px;
+  }
+
+  .media,
+  .media--portrait {
+    width: min(100%, 360px);
   }
 }
 
-@keyframes popupOptionsOpen {
-  from {transform: translate(-50%, 100%)}
-  to {transform: translate(-50%, 0%)}
-}
+/* -------------------------------------------------------- Reduced motion */
 
-@keyframes popupOptionsClosed {
-  from {transform: translate(-50%, 0%)}
-  to {transform: translate(-50%, 100%)}
-}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-inner,
+  .stop .reveal-inner,
+  .stop.is-active .reveal-inner {
+    transform: none;
+    transition: none;
+  }
 
-@keyframes popupContactOpen {
-  from {transform: translate(-50%, 100%)}
-  to {transform: translate(-50%, 0%)}
-}
+  .media-item {
+    scale: 1;
+  }
 
-@keyframes popupContactClosed {
-  from {transform: translate(-50%, 0%)}
-  to {transform: translate(-50%, 100%)}
+  .roll-text {
+    transition: none;
+  }
 }

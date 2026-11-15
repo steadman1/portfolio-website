@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Intermediate files from scripts/bake-lighting.py
+build

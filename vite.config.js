@@ -6,6 +6,19 @@ const outDir = resolve(__dirname, 'dist')
 
 export default defineConfig({
     assetsInclude: ['**/*.gltf'],
+    plugins: [
+      {
+        // The original site (public/original, see scripts/build-original.sh):
+        // let the dev server open it at /original like the live site does.
+        name: 'original-site-index',
+        configureServer(server) {
+          server.middlewares.use((req, _res, next) => {
+            if (req.url === '/original' || req.url === '/original/') req.url = '/original/index.html'
+            next()
+          })
+        },
+      },
+    ],
     build: {
     chunkSizeWarningLimit: 600,
     outDir,

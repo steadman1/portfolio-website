@@ -1,0 +1,21 @@
+/*
+ * Styles for the app legal and support pages (pinit.html, privacy.html,
+ * watchai-*.html, liminal-browser-*.html). Kept separate from main.css so
+ * changes to the portfolio can't break these pages.
+ */
+
+html {
+  background: #fff;
+  color: #000;
+}
+
+body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+  line-height: 1.6;
+}
+
+h1 {
+  line-height: 1.2;
+}
