@@ -6,7 +6,8 @@ import { toolIcons } from '../ui/tool-icons';
 
 /** The introduction at the top of the page. Only the name and the links
  *  slide in (reveal); the smaller text is simply there. The letters of the
- *  name shy away from the cursor, and each skill has its tools' icons. */
+ *  name shy away from the cursor, and each skill has its tools' icons.
+ *  The skills line sits right under the name, above the bio. */
 export function renderHero(root: HTMLElement) {
   let i = 0;
   // Each letter of the name is its own span, so it can be pushed around (repel()).
@@ -31,15 +32,15 @@ export function renderHero(root: HTMLElement) {
       h(
         'div',
         { class: 'hero-body' },
-        ...intro.bio.map((paragraph) => h('p', {}, paragraph)),
         h(
           'p',
           { class: 'hero-skills label' },
           ...intro.skills.flatMap((skill, n) => [
             n > 0 ? ', ' : null,
-            skillElement(skill.label, skill.tools),
+            skill.more ? moreElement(skill.label, skill.more) : skillElement(skill.label, skill.tools ?? []),
           ]),
         ),
+        ...intro.bio.map((paragraph) => h('p', {}, paragraph)),
         reveal(
           h(
             'ul',
@@ -94,6 +95,17 @@ function skillElement(label: string, ids: ToolId[]) {
     ...ids.map(toolIcon),
     label,
     ids.length ? h('span', { class: 'skill-tip', 'aria-hidden': 'true' }, ids.map(experience).join('   ')) : null,
+  );
+}
+
+/** A skill with no icons ("and more") whose hover tip lists more skills.
+ *  Focusable, so touch and keyboard users can see the list too. */
+function moreElement(label: string, more: string[]) {
+  return h(
+    'span',
+    { class: 'skill skill-more', tabindex: 0 },
+    label,
+    h('span', { class: 'skill-tip' }, more.join(', ')),
   );
 }
 

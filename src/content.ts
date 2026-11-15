@@ -106,13 +106,15 @@ export const intro = {
     "I also love all kinds of design, so I built my dream apartment in Blender! Scroll down to take a look inside.",
   ],
   /** The line of skills under the bio. `tools` are the icons shown to the
-   *  left of each skill (see `tools` below). */
+   *  left of each skill (see `tools` below). `more` is a list (no icons)
+   *  shown when the skill is hovered. */
   skills: [
     { label: 'Swift & SwiftUI', tools: ['swift'] },
     { label: 'Python', tools: ['python'] },
     { label: 'UI & UX Design', tools: ['figma'] },
     { label: 'Graphic & Motion Design', tools: ['photoshop', 'illustrator'] },
-  ] as { label: string; tools: ToolId[] }[],
+    { label: 'and more', more: ['C++', 'Java', 'After Effects', 'Premiere Pro'] },
+  ] as { label: string; tools?: ToolId[]; more?: string[] }[],
   /** The small note at the bottom right of the intro, across from "Scroll",
    *  and the link after it. The original site is served from public/original
    *  (built by scripts/build-original.sh). */
@@ -505,7 +507,7 @@ export const stops: Stop[] = [
         { video: '/media/videos/catapult.mp4', poster: '/media/videos/catapult.jpg', alt: 'Animation of a catapult', caption: 'Catapult & Company' },
         { video: '/media/videos/macintosh.mp4', poster: '/media/videos/macintosh.jpg', alt: 'Animation of a classic Macintosh computer', caption: 'Macintosh (1984)' },
         { video: '/media/videos/garden.mp4', poster: '/media/videos/garden.jpg', alt: 'Animation of a tree and a clothes line', caption: 'A Tree & a Clothes Line' },
-        { video: '/media/videos/dreamtapes.mp4', poster: '/media/videos/dreamtapes.png', alt: 'Animation of tapes inside a head', caption: 'Dream Tapes' },
+        { video: '/media/videos/dreamtapes.mp4', poster: '/media/videos/dreamtapes.jpg', alt: 'Animation of tapes inside a head', caption: 'Dream Tapes' },
         { image: '/media/projects/saturn.jpg', alt: 'Classic cars driving on the rings of Saturn', caption: "Saturn's a Highway" },
         { image: '/media/projects/other_works/1984.jpg', alt: 'Bold red poster for George Orwell\'s 1984 with an eye in the title', caption: '1984' },
         { image: '/media/projects/other_works/boulder_fields_CO.jpg', alt: 'Magazine-style cover of red rock spires with a hand-drawn trail map of Colorado', caption: 'Boulder Field, Colorado' },

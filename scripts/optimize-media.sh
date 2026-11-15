@@ -39,7 +39,7 @@ done
 
 # --- videos ---------------------------------------------------------------
 # Short edge 720px (they are portrait 9:16), no audio (they play muted), streamable, plus a poster frame.
-for name in katana catapult; do
+for name in katana catapult garden macintosh dreamtapes ponder; do
   src="src/assets/videos/$name.mp4"
   dst="$out_dir/videos/$name.mp4"
   poster="$out_dir/videos/$name.jpg"
@@ -54,3 +54,25 @@ for name in katana catapult; do
     echo "poster $poster"
   fi
 done
+
+# --- images placed in public/media by hand -----------------------------------
+# Icons, logos and preview screenshots that have no original in src/assets.
+# Shrunk in place (never enlarged), keeping their format and name. Icons and
+# logos show at ~190 css px; previews at ~210 css px wide or up to 64vh tall.
+shrink() {
+  dir=$1; max=$2
+  find "$dir" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) | while read -r f; do
+    width=$(sips -g pixelWidth "$f" | awk '/pixelWidth/ {print $2}')
+    height=$(sips -g pixelHeight "$f" | awk '/pixelHeight/ {print $2}')
+    if [ "$width" -le "$max" ] && [ "$height" -le "$max" ]; then continue; fi
+    case "$f" in
+      *.png|*.PNG) sips -Z "$max" "$f" >/dev/null ;;
+      *) sips -s formatOptions 80 -Z "$max" "$f" >/dev/null ;;
+    esac
+    echo "shrunk $f"
+  done
+}
+shrink "$out_dir/icons" 512
+shrink "$out_dir/logos" 512
+shrink "$out_dir/projects" 1200
+shrink "$out_dir/profile" 1200

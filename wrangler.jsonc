@@ -1,0 +1,11 @@
+{
+  // Static-assets-only Worker: Cloudflare serves the Vite build output in dist/.
+  // Having this file stops `wrangler deploy` from trying to auto-configure the
+  // Vite project (which requires Vite 6+).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio-website",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}

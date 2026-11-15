@@ -333,7 +333,7 @@ span.reveal {
 .hero-body {
   display: grid;
   gap: 18px;
-  max-width: 44ch;
+  max-width: 60ch;
   margin-left: 50%;
 }
 
@@ -341,13 +341,24 @@ span.reveal {
   color: var(--fg);
 }
 
-/* A skill with its tools' icons on the left; kept on one line. */
+/* A skill with its tools' icons on the left; kept on one line. Its text
+   sits on the line's baseline (like the commas and "and more"), with the
+   icons centred beside it. */
 .skill {
   position: relative;
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 4px;
   white-space: nowrap;
+}
+
+.skill .skill-icon {
+  align-self: center;
+}
+
+/* "and more": hovering it lists the rest (no icons). */
+.skill-more {
+  cursor: default;
 }
 
 .skill-icon + .skill-icon {
@@ -419,6 +430,17 @@ span.reveal {
 .skill:focus-within .skill-tip {
   opacity: 1;
   translate: 0 0;
+}
+
+/* "and more": its list is centred over the text. */
+.skill-more .skill-tip {
+  left: 50%;
+  translate: -50% 4px;
+}
+
+.skill-more:hover .skill-tip,
+.skill-more:focus-within .skill-tip {
+  translate: -50% 0;
 }
 
 .hero-top .label {
