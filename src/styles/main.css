@@ -1016,6 +1016,7 @@ html.is-3d-failed .load-status {
 
 .media-caption {
   flex: 1;
+  white-space: pre-line; /* album captions: title, then artist on the next line */
 }
 
 .media-next {
@@ -1185,6 +1186,7 @@ html.has-lightbox {
 
 .lightbox-caption {
   flex: 1;
+  white-space: pre-line;
 }
 
 .lightbox-next,

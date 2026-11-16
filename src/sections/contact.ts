@@ -26,7 +26,6 @@ export function renderContact(root: HTMLElement) {
       'footer',
       { class: 'site-footer label' },
       h('span', {}, `© ${new Date().getFullYear()} ${intro.name}`),
-      h('span', {}, 'Apartment modeled in Blender, rendered with three.js'),
     ),
   );
 }
