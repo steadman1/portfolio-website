@@ -161,6 +161,16 @@ video {
   transform: translateY(var(--roll-line));
 }
 
+/* Touch screens can't hover, so the copy would never roll in, and it's only
+   one line tall: a label that wraps (like "Continue to My Computer") would
+   show its second line's copy over its first. Drop it there. */
+@media (hover: none) {
+  .roll-text {
+    text-shadow: none;
+    transform: none !important;
+  }
+}
+
 /* Standalone buttons (Explore the building, Back to the tour). */
 .button {
   font-size: 18px;
