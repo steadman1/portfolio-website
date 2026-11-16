@@ -705,10 +705,12 @@ html.is-3d-failed .load-status {
 }
 
 /* Touch screens: the card opens just below the tapped row, or above it
-   (work.ts), bigger, and grows out from the row. */
+   (work.ts), bigger, and grows out from the row. Tall media narrows the
+   card so it fills it edge to edge at up to 45svh tall (--aspect is its
+   width / height, from work.ts), but never below 200px wide. */
 .work-preview.is-centered,
 .work-preview.is-centered.is-large {
-  --media: min(260px, 100vw - 64px);
+  --media: clamp(200px, 45svh * var(--aspect, 1), min(260px, 100vw - 64px));
   max-width: calc(100vw - 32px);
   transform-origin: center top;
 }
@@ -725,9 +727,12 @@ html.is-3d-failed .load-status {
   pointer-events: auto;
 }
 
+/* Fills the card's width; media too tall even for a 200px-wide card loses
+   a little off the bottom instead of getting black bars at the sides. */
 .work-preview.is-centered .work-preview-media {
   max-height: 45svh;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: top;
 }
 
 /* Close (left) and Open (right, for items with a link) under the

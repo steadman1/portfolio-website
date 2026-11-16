@@ -177,6 +177,8 @@ class Preview {
     const [w, h] = !media ? [0, 0] : media instanceof HTMLVideoElement ? [media.videoWidth, media.videoHeight] : [media.naturalWidth, media.naturalHeight];
     const widen = w && h && w > h ? Math.min(w / h, MAX_WIDEN) : 1;
     this.el.style.setProperty('--widen', String(widen));
+    // Touch screens narrow the card to fit tall media (see main.css).
+    this.el.style.setProperty('--aspect', w && h ? String(w / h) : '1');
     this.place();
   }
 

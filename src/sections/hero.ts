@@ -132,24 +132,50 @@ const REPEL_PUSH = 0.12;
 const REPEL_SCALE = 0.08;
 const REPEL_TILT = 6; // degrees at most, leaning away from the cursor
 const REPEL_RATE = 12;
+// Touch screens: an invisible cursor drifts over the name instead. How
+// strongly it pushes (fraction of a real cursor's push) and how fast it
+// wanders (higher = faster).
+const GHOST_STRENGTH = 0.6;
+const GHOST_SPEED = 1;
 
 /** Letters of the name lean away from the cursor, as if magnetically
  *  repelled: they're pushed back, tilt away, and grow slightly as it
- *  comes near. */
+ *  comes near. Touch screens have no cursor to hover with, so there an
+ *  invisible one wanders over the letters on its own. */
 function repel(name: HTMLElement) {
-  if (!finePointer || motion.reduced) return;
+  if (motion.reduced) return;
   const chars = [...name.querySelectorAll<HTMLElement>('.hero-char')].map((el) => ({ el, x: 0, y: 0, s: 1, r: 0 }));
   // Let letters move outside the reveal masks once the name has slid in.
   const inners = name.querySelectorAll('.reveal-inner');
   inners[inners.length - 1]?.addEventListener('transitionend', () => name.classList.add('is-settled'), { once: true });
 
   const pointer = { x: -1e4, y: -1e4 };
-  addEventListener('pointermove', (e) => ((pointer.x = e.clientX), (pointer.y = e.clientY)), { passive: true });
-  document.addEventListener('pointerleave', () => ((pointer.x = -1e4), (pointer.y = -1e4)));
+  const ghost = !finePointer;
+  const strength = ghost ? GHOST_STRENGTH : 1;
+  if (!ghost) {
+    addEventListener('pointermove', (e) => ((pointer.x = e.clientX), (pointer.y = e.clientY)), { passive: true });
+    document.addEventListener('pointerleave', () => ((pointer.x = -1e4), (pointer.y = -1e4)));
+  }
+  // The ghost's path: two slow waves per axis at unrelated speeds, from a
+  // random starting point, so it meanders and never quite repeats.
+  const phase = Array.from({ length: 4 }, () => Math.random() * Math.PI * 2);
+  let time = 0;
 
   let resting = true;
   onFrame((dt) => {
     const box = name.getBoundingClientRect();
+    if (ghost) {
+      // Only once the name has slid in, and only while it's on screen.
+      if (name.classList.contains('is-settled') && box.bottom > 0 && box.top < innerHeight) {
+        time += dt * GHOST_SPEED;
+        const u = 0.65 * Math.sin(0.42 * time + phase[0]) + 0.35 * Math.sin(1.07 * time + phase[1]);
+        const v = 0.6 * Math.sin(0.53 * time + phase[2]) + 0.4 * Math.sin(1.31 * time + phase[3]);
+        pointer.x = box.left + box.width * (0.5 + 0.55 * u);
+        pointer.y = box.top + box.height * (0.5 + 0.6 * v);
+      } else {
+        pointer.x = pointer.y = -1e4;
+      }
+    }
     const size = parseFloat(getComputedStyle(name).fontSize);
     const reach = size * REPEL_RADIUS;
     const near = pointer.x > box.left - reach && pointer.x < box.right + reach && pointer.y > box.top - reach && pointer.y < box.bottom + reach;
@@ -162,7 +188,7 @@ function repel(name: HTMLElement) {
       const dy = r.top + r.height / 2 - c.y - pointer.y;
       const dist = Math.hypot(dx, dy) || 1;
       const t = Math.max(0, 1 - dist / reach);
-      const force = t * t * (3 - 2 * t); // eases off smoothly towards the edge of its reach
+      const force = t * t * (3 - 2 * t) * strength; // eases off smoothly towards the edge of its reach
       c.x = damp(c.x, (dx / dist) * force * size * REPEL_PUSH, REPEL_RATE, dt);
       c.y = damp(c.y, (dy / dist) * force * size * REPEL_PUSH, REPEL_RATE, dt);
       c.s = damp(c.s, 1 + force * REPEL_SCALE, REPEL_RATE, dt);
