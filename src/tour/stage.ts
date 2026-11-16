@@ -5,7 +5,7 @@ import {
   HemisphereLight,
   type Light,
   type Material,
-  type Mesh,
+  Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
   type MeshPhysicalMaterial,
@@ -14,14 +14,16 @@ import {
   PerspectiveCamera,
   Scene,
   sRGBEncoding,
-  type Texture,
-  TextureLoader,
+  Texture,
   Vector3,
   WebGLRenderer,
 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { bakedModel } from '../content';
 import { clamp, type Rect } from '../lib/math';
+import { mark, timed } from '../lib/perf';
+import type { ApartmentFiles } from './loading';
 
 /**
  * The three.js side of the site: renderer, model, lights.
@@ -45,14 +47,8 @@ const HIDDEN_OBJECTS = ['shop_counter_camera_outline', 'bay_window_camera_outlin
  *  scripts/bake-lighting.py. */
 const LIGHTMAP_SCALE = 2;
 
-/** Baked lighting: the lightmap image (full size, and a half-size copy) and
- *  how bright to show it. */
-export type BakedLighting = { lightmap: string; lightmapSmall: string; brightness: number };
-
-/** Width of the full-size lightmap (BAKE_SIZE in scripts/bake-lighting.py).
- *  Phones (to save memory) and devices that can't load an image this big
- *  get the half-size copy. */
-const FULL_LIGHTMAP_SIZE = 8192;
+/** Most milliseconds of GPU warm-up per frame (see Stage.warmUp). */
+const WARM_UP_SLICE_MS = 6;
 
 /** How much bigger than the object its highlight outline is. */
 const OUTLINE_SCALE = 1.07;
@@ -62,6 +58,24 @@ const OUTLINE_SCALE = 1.07;
 function gltfLoader() {
   const draco = new DRACOLoader().setDecoderPath('/draco/');
   return new GLTFLoader().setDRACOLoader(draco);
+}
+
+/** Makes a texture from a downloaded image, decoded off the main thread
+ *  where the browser can (an ImageBitmap), else as an <img> decoded in the
+ *  background. Not flipped, which suits glTF's texture convention. */
+async function textureFromBlob(blob: Blob) {
+  const texture = new Texture();
+  try {
+    texture.image = await createImageBitmap(blob, { imageOrientation: 'none', colorSpaceConversion: 'none' });
+  } catch {
+    const image = new Image();
+    image.src = URL.createObjectURL(blob);
+    await image.decode();
+    texture.image = image;
+  }
+  texture.flipY = false;
+  texture.needsUpdate = true;
+  return texture;
 }
 
 export type CameraState = { position: Vector3; target: Vector3; fov: number };
@@ -82,6 +96,9 @@ export class Stage {
   private lastDrawn = '';
   private slowFrames = 0;
   private coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  /** Lit by the baked lightmap (no real-time lights), see useBakedLight. */
+  private baked = false;
+  private lightmap: Texture | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -104,21 +121,30 @@ export class Stage {
   }
 
   /**
-   * Loads the model. `onProgress` gets 0..1, or null if the size is unknown.
-   * With `baked`, the model's light and shadows come from a baked image
-   * instead of real-time lights (much lighter to draw).
+   * Builds the model from its downloaded files. With a lightmap, the
+   * model's light and shadows come from that baked image instead of
+   * real-time lights (much lighter to draw). Each heavy step waits for
+   * `quiet()`, a moment when the page isn't busy (see loading.ts).
    */
-  async load(url: string, onProgress: (fraction: number | null) => void, baked?: BakedLighting) {
-    const [gltf, lightmap] = await Promise.all([
-      gltfLoader().loadAsync(url, (e) =>
-        onProgress(e.lengthComputable && e.total ? clamp(e.loaded / e.total, 0, 1) : null),
-      ),
-      baked ? new TextureLoader().loadAsync(this.lightmapUrl(baked)) : null,
-    ]);
-    const model = gltf.scene;
+  async load(files: ApartmentFiles, quiet: () => Promise<void>) {
+    const buffer = await files.model;
+    mark('model downloaded');
+    await quiet();
+    const gltf = await timed('build model', () => gltfLoader().parseAsync(buffer, '/models/'));
+    let lightmap: Texture | null = null;
+    if (files.lightmap) {
+      const blob = await files.lightmap;
+      mark('lightmap downloaded');
+      await quiet();
+      lightmap = await timed('decode lightmap', () => textureFromBlob(blob));
+    }
+    await quiet();
+    await timed('set up scene', () => this.setUp(gltf.scene, lightmap));
+  }
 
-    if (baked && lightmap) {
-      this.useBakedLight(model, lightmap, baked.brightness);
+  private setUp(model: Object3D, lightmap: Texture | null) {
+    if (lightmap) {
+      this.useBakedLight(model, lightmap, bakedModel.brightness);
     } else {
       model.traverse((object) => {
         if ((object as Mesh).isMesh) {
@@ -157,6 +183,8 @@ export class Stage {
     lightmap.anisotropy = this.renderer.capabilities.getMaxAnisotropy(); // crisp on floors seen at an angle
     this.renderer.shadowMap.enabled = false;
     this.ambient.visible = false;
+    this.baked = true;
+    this.lightmap = lightmap;
     this.pixelRatio = Math.min(window.devicePixelRatio, 2); // cheap enough for sharper drawing
 
     const lamps: Object3D[] = [];
@@ -196,11 +224,6 @@ export class Stage {
       mesh.material = Array.isArray(mesh.material) ? mesh.material.map(swap) : swap(mesh.material);
     });
     for (const lamp of lamps) lamp.removeFromParent();
-  }
-
-  private lightmapUrl(baked: BakedLighting) {
-    const fits = this.renderer.capabilities.maxTextureSize >= FULL_LIGHTMAP_SIZE;
-    return fits && !this.coarsePointer ? baked.lightmap : baked.lightmapSmall;
   }
 
   /** Adds a (hidden) white outline around a model object; fade it with setOutline. */
@@ -243,10 +266,87 @@ export class Stage {
     return [...this.outlines.keys()];
   }
 
-  /** Compiles shaders and draws shadows up front, so the first reveal doesn't stutter. */
-  warmUp(view: CameraState, rect: Rect) {
+  /**
+   * Gets everything onto the GPU before the first real frame, so the model
+   * appears without a stutter: decodes images in the background, then draws
+   * the model's pieces one at a time into a hidden 1px corner (compiling
+   * their shaders and uploading their textures and geometry), a few
+   * milliseconds' worth per frame so the page stays smooth meanwhile. The
+   * bigger steps wait for a quiet moment (`quiet()`, see loading.ts).
+   */
+  async warmUp(view: CameraState, rect: Rect, quiet: () => Promise<void>) {
     this.applyCamera(view, rect);
-    this.renderer.compile(this.scene, this.camera);
+    if (!this.baked) {
+      await quiet();
+      // Real-time lights and shadows: shaders depend on the whole scene's
+      // lights, so compile it in one go.
+      this.renderer.compile(this.scene, this.camera);
+      this.draw(view, rect, true);
+      return;
+    }
+
+    // Every mesh that can be drawn: the visible model plus the (hidden) outlines.
+    const meshes: Mesh[] = [];
+    const addMeshes = (object: Object3D) => (object as Mesh).isMesh && meshes.push(object as Mesh);
+    this.scene.traverseVisible(addMeshes);
+    for (const { shell } of this.outlines.values()) shell.traverse(addMeshes);
+
+    const textures = new Set<Texture>();
+    for (const mesh of meshes) {
+      for (const material of [mesh.material].flat()) {
+        for (const value of Object.values(material)) if ((value as Texture)?.isTexture) textures.add(value as Texture);
+      }
+    }
+    await quiet();
+    // Safari's model textures are <img>s, which otherwise decode on the main
+    // thread when uploaded. (Elsewhere they're already decoded ImageBitmaps.)
+    await Promise.all(
+      [...textures].map((t) => (t.image instanceof HTMLImageElement ? t.image.decode().catch(() => {}) : null)),
+    );
+
+    // Stand-ins share the real geometry and materials, so whatever they get
+    // onto the GPU (shaders, textures, buffers) the real meshes reuse. No
+    // lights, matching the baked scene, and the same fog.
+    const r = this.renderer;
+    const scratch = new Scene();
+    scratch.fog = this.scene.fog;
+    const standIn = new Mesh();
+    standIn.frustumCulled = false;
+    scratch.add(standIn);
+    const endSlice = () => {
+      r.setScissorTest(false);
+      r.clear();
+    };
+    // The lightmap is the one big upload; give it a quiet moment of its own.
+    if (this.lightmap) {
+      await quiet();
+      await timed('upload lightmap to GPU', () => r.initTexture(this.lightmap!));
+    }
+    // The rest goes in small slices, one per frame.
+    await quiet();
+    let sliceStart = performance.now();
+    let slices = 1;
+    let longest = 0;
+    for (const mesh of meshes) {
+      standIn.geometry = mesh.geometry;
+      standIn.material = mesh.material;
+      r.setViewport(0, 0, 1, 1);
+      r.setScissor(0, 0, 1, 1);
+      r.setScissorTest(true);
+      r.render(scratch, this.camera);
+      const elapsed = performance.now() - sliceStart;
+      if (elapsed > WARM_UP_SLICE_MS) {
+        endSlice();
+        longest = Math.max(longest, elapsed);
+        await new Promise(requestAnimationFrame);
+        sliceStart = performance.now();
+        slices++;
+      }
+    }
+    endSlice();
+    longest = Math.max(longest, performance.now() - sliceStart);
+    mark(`GPU warm-up: ${slices} slices, longest ${Math.round(longest)} ms`);
+    this.lastDrawn = '';
     this.draw(view, rect, true);
   }
 

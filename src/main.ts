@@ -1,9 +1,11 @@
 import { renderContact } from './sections/contact';
-import { renderHero } from './sections/hero';
+import { introSettled, renderHero } from './sections/hero';
 import { renderWork } from './sections/work';
 import '@fontsource-variable/inter';
 import { initSmoothScroll } from './lib/smooth-scroll';
+import { downloadApartment, makeQuiet } from './tour/loading';
 import { Tour } from './tour/tour';
+import { timed } from './lib/perf';
 import { initCursor } from './ui/cursor';
 import { initReveal } from './ui/reveal';
 
@@ -26,10 +28,22 @@ initCursor();
 const params = new URLSearchParams(location.search);
 const debug = params.has('debug');
 
+/**
+ * The apartment: its files start downloading straight away (that never
+ * blocks the page), but each heavy step after that (running three.js,
+ * setting up WebGL, building the model, getting it onto the GPU) waits for
+ * a quiet moment: once the intro has animated in and the page has been
+ * still for a moment, or right away if the apartment is about to be on
+ * screen. See loading.ts; add ?perf to the address to time each step.
+ */
 async function load3D() {
   try {
-    const { startView } = await import('./tour/view');
-    const view = await startView(tour, $('stage') as HTMLCanvasElement);
+    const files = downloadApartment((fraction) => tour.setProgress(fraction));
+    const apartment = $('apartment');
+    const quiet = makeQuiet(introSettled, () => apartment.getBoundingClientRect().top < innerHeight * 1.2);
+    await quiet();
+    const { startView } = await timed('load three.js', () => import('./tour/view'));
+    const view = await startView(tour, $('stage') as HTMLCanvasElement, files, quiet);
     if (debug) {
       const { startDebug } = await import('./tour/debug');
       startDebug(tour, view);
@@ -40,7 +54,7 @@ async function load3D() {
   }
 }
 
-// Let the intro paint first, then start the big download.
+// Let the intro paint first, then start.
 requestAnimationFrame(() => setTimeout(load3D, 0));
 
 if (debug && params.has('stop')) {

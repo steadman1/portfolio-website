@@ -315,9 +315,12 @@ export const modelUrl = '/models/apartment.glb';
 export const bakedModel = {
   enabled: true,
   url: '/models/apartment-baked.glb',
-  lightmap: '/models/apartment-lightmap.jpg',
-  /** Half-size copy for phones and other devices that can't hold the full one. */
-  lightmapSmall: '/models/apartment-lightmap-small.jpg',
+  /** The baked light, 4096px: a quick download, and quick to put on the GPU. */
+  lightmap: '/models/apartment-lightmap-small.jpg',
+  /** The full 8192px bake: slightly crisper shadows up close, but a 6.7 MB
+   *  download and a stutter when it's uploaded to the GPU. Add
+   *  ?sharp-lightmap to the address to compare. */
+  lightmapSharp: '/models/apartment-lightmap.jpg',
   /** Overall brightness of the baked light (1 = as baked). */
   brightness: 1,
 };

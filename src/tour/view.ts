@@ -1,30 +1,33 @@
 import { Vector3 } from 'three';
-import { bakedModel, modelUrl, stops, tourSettings } from '../content';
+import { stops, tourSettings } from '../content';
 import { damp, lerpRect, type Rect } from '../lib/math';
 import { finePointer, motion } from '../lib/loop';
+import { mark, timed } from '../lib/perf';
 import { CameraPath } from './camera-path';
+import type { ApartmentFiles } from './loading';
 import { type CameraState, Stage } from './stage';
 import type { FrameInfo, Tour, TourView } from './tour';
 
 /**
- * Loads the 3D model and plugs it into the tour. Loaded lazily (after the
- * intro is on screen) because three.js and the model are big.
+ * Builds the 3D view from the downloaded files and plugs it into the tour.
+ * Loaded lazily (after the intro is on screen) because three.js and the
+ * model are big; every heavy step waits for `quiet()` (see loading.ts).
  */
-export async function startView(tour: Tour, canvas: HTMLCanvasElement) {
-  const stage = new Stage(canvas); // throws without WebGL
-  const onProgress = (fraction: number | null) => tour.setProgress(fraction);
-  // Add ?live-lighting to the address to compare with real-time lighting.
-  const baked = bakedModel.enabled && !new URLSearchParams(location.search).has('live-lighting');
-  if (baked) await stage.load(bakedModel.url, onProgress, bakedModel);
-  else await stage.load(modelUrl, onProgress);
+export async function startView(tour: Tour, canvas: HTMLCanvasElement, files: ApartmentFiles, quiet: () => Promise<void>) {
+  await quiet();
+  const stage = await timed('create WebGL context', () => new Stage(canvas)); // throws without WebGL
+  await stage.load(files, quiet);
   tour.setProgress(1);
 
   for (const name of new Set(stops.flatMap((s) => s.highlight ?? []))) stage.addOutline(name);
 
   const view = new View(stage);
-  // Draw once off-screen so shaders compile before anyone sees the model.
-  view.warmUp();
+  // Get shaders, textures and geometry onto the GPU (a little at a time,
+  // at quiet moments) before anyone sees the model, so it appears without
+  // a stutter.
+  await view.warmUp(quiet);
   tour.setView(view);
+  mark('apartment ready');
   return view;
 }
 
@@ -63,9 +66,9 @@ export class View implements TourView {
     }
   }
 
-  warmUp() {
+  async warmUp(quiet: () => Promise<void>) {
     this.path.stateAt(0, 0, this.state);
-    this.stage.warmUp(this.state, { x: 0, y: 0, ...this.stage.size });
+    await this.stage.warmUp(this.state, { x: 0, y: 0, ...this.stage.size }, quiet);
     this.stage.clear();
   }
 
