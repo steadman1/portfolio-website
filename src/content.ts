@@ -208,7 +208,7 @@ export const workRows: WorkRow[] = [
         meta: 'UI/UX case study',
         year: '2026',
         description: 'An action packed 2-4 player card game.',
-        href: 'https://www.figma.com/design/OtrBljPuG5YggsJYThYGpq/Golf?node-id=0-1&p=f&t=j0VFuVI2w8LQhLOa-0',
+        href: 'https://golf.spencersteadman.com',
         image: '/media/icons/golf_icon.png',
         preview: '/media/projects/golf.png',
       },
